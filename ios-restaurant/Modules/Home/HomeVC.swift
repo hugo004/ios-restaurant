@@ -10,15 +10,16 @@ import UIKit
 
 class HomeVC: UITabBarController {
     
-    let Sam: UIViewController = {
+    let Hugo: UIViewController = {
+        //let vc = UIViewController()
         let vc = UIViewController()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Hugo"), image: UIImage(named:"icon-calendar-blue"), tag: 0)
         
         return vc
     }()
     
-    let Hugo: UIViewController = {
-        let vc = UIViewController()
+    let Sam: UIViewController = {
+        let vc = MainVC()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Sam") , image: UIImage(named:"icon-settings-white"), tag: 1)
         
         return vc
