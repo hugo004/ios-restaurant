@@ -167,9 +167,17 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		C438658D2257FAB500695652 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C4B90BD12254CC2C007E2642 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C438658D2257FAB500695652 /* Views */,
 				C4B90BD22254CC52007E2642 /* MainVC.swift */,
 			);
 			path = Main;
@@ -262,7 +270,8 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ios-restaurant/Pods-ios-restaurant-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ios-restaurant/Pods-ios-restaurant-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/Onboard/Onboard.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
@@ -273,6 +282,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Onboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
@@ -281,7 +291,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ios-restaurant/Pods-ios-restaurant-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ios-restaurant/Pods-ios-restaurant-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7400FC794159FE9FE65E4BFE /* [CP] Check Pods Manifest.lock */ = {
