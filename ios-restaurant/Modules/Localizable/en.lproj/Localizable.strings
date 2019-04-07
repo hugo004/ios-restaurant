@@ -5,3 +5,22 @@
   Created by Hugo on 29/3/2019.
   Copyright © 2019 Hugo. All rights reserved.
 */
+
+"home_setting" = "Setting";
+"home_profile" = "Profile";
+
+//setting
+"setting_aboutapp" = "About App";
+"setting_language" = "Langauge";
+"setting_permission" = "Permission";
+
+
+//language
+"language_chinese" = "Chinese";
+"language_english" = "English";
+
+
+//profie
+"profile_dob" = "Date of Born";
+"profile_weight" = "Weight";
+"profile_height" = "Height";

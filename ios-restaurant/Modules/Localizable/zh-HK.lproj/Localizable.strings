@@ -5,3 +5,15 @@
   Created by Hugo on 29/3/2019.
   Copyright © 2019 Hugo. All rights reserved.
 */
+
+"home_setting" = "設置";
+
+//setting
+"setting_aboutapp" = "關於應用";
+"setting_language" = "語言";
+"setting_permission" = "權限管理";
+
+
+//language
+"language_chinese" = "中文";
+"language_english" = "英文";
