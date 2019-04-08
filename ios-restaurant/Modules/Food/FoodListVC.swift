@@ -8,9 +8,14 @@
 
 import UIKit
 
+class FoodListModel {
+    var foodList: [FoodCategory] = StorageHelper.getFoodCategetory();
+}
+
 class FoodListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!;
+    var model: FoodListModel = FoodListModel();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,10 @@ class FoodListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.separatorStyle = .none;
         
         self.view.addSubview(tableView);
+        
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide);
+        }
 
     }
     
@@ -36,7 +45,7 @@ class FoodListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3;
+        return model.foodList.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,16 +56,18 @@ class FoodListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell = FoodListCell(style: .default, reuseIdentifier: identifier);
             cell?.selectionStyle = .none;
         }
+        let category = model.foodList[indexPath.row];
         
-        cell?.foodImgv.backgroundColor = UIColor.blue;
-        cell?.title.text = "Food name";
-        cell?.subTitle.text = "Category";
-        cell?.priceTag.text = "HK$ 10";
+        cell?.foodImgv.image = UIImage(data: category.image);
+        cell?.title.text = category.category;
+        cell?.subTitle.text = category.category;
+        cell?.priceTag.text = "HK$ 10 ~ 300";
         
         return cell!;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(FoodDetailVC(), animated: true);
+        let category = model.foodList[indexPath.row];
+        self.navigationController?.pushViewController(FoodDetailVC(category: category), animated: true);
     }
 }

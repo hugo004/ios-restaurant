@@ -24,3 +24,6 @@
 "profile_dob" = "Date of Born";
 "profile_weight" = "Weight";
 "profile_height" = "Height";
+
+//food
+"food_share" = "Share";

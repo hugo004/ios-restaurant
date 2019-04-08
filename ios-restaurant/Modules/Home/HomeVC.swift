@@ -46,8 +46,13 @@ class HomeVC: UITabBarController {
         return vc
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if StorageHelper.getFoodCategetory().count < 1 {
+            StorageHelper.intiFoodData();
+        }
         
         print("current lan:", Helper.currentLanguage());
         // Do any additional setup after loading the view.

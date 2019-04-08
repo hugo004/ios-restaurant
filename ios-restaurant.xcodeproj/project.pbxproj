@@ -25,6 +25,7 @@
 		9A715B74224E5CCE0047F15C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A715B76224E5CCE0047F15C /* Localizable.strings */; };
 		9A715B79224E5D1C0047F15C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A715B78224E5D1C0047F15C /* HomeVC.swift */; };
 		9AEC5EF42259BAA0003EF2FA /* ProfileEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC5EF32259BAA0003EF2FA /* ProfileEditVC.swift */; };
+		9AEC5EF9225AF71E003EF2FA /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC5EF8225AF71E003EF2FA /* StorageHelper.swift */; };
 		A51E234068B1F6089FC71D81 /* Pods_ios_restaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F4A9D4C94E13E08157DDC9 /* Pods_ios_restaurant.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		9A715B77224E5CD00047F15C /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9A715B78224E5D1C0047F15C /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		9AEC5EF32259BAA0003EF2FA /* ProfileEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditVC.swift; sourceTree = "<group>"; };
+		9AEC5EF8225AF71E003EF2FA /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
 		D3F4A9D4C94E13E08157DDC9 /* Pods_ios_restaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_restaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				9A715B67224E5B320047F15C /* Helpers.swift */,
+				9AEC5EF8225AF71E003EF2FA /* StorageHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				9A2A95D62258A63E00D4BA49 /* BaseViewController.swift in Sources */,
 				9A715B68224E5B320047F15C /* Helpers.swift in Sources */,
 				9A715B54224E5AAE0047F15C /* AppDelegate.swift in Sources */,
+				9AEC5EF9225AF71E003EF2FA /* StorageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

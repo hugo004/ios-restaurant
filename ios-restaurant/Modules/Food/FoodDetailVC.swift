@@ -31,12 +31,36 @@ class FoodDetailHeaderView: UIView {
     
     func initView() -> Void {
         self.addSubview(imageView);
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self);
+        }
+    }
+}
+
+class FoodDetailModel {
+    var category: FoodCategory!;
+    var foodList: [Food] = [];
+    
+    init(category: FoodCategory) {
+        self.category = category;
+        
+        foodList = StorageHelper.retreiveFoods(type: FoodType(rawValue: category.category)!);
     }
 }
 
 class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!;
+    var model: FoodDetailModel!;
+    
+    init(category: FoodCategory) {
+        super.init(nibName: nil, bundle: nil);
+        model = FoodDetailModel(category: category);
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +98,7 @@ class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         //set header view
         let header = FoodDetailHeaderView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200));
-        header.backgroundColor = UIColor.lightGray;
+        header.imageView.image = UIImage(data: model.category.image);
         tableView.tableHeaderView = header;
         
         self.view.addSubview(tableView);
@@ -90,15 +114,15 @@ class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2;
+        return 1;
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Food Category";
+        return model.category.category;
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10;
+        return model.foodList.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,16 +134,19 @@ class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             cell?.selectionStyle = .none;
         }
         
-        cell?.foodImgv.backgroundColor = UIColor.blue;
-        cell?.title.text = "Food name";
-        cell?.subTitle.text = "HK$ 10";
+        let food: Food = model.foodList[indexPath.row];
+        
+        cell?.foodImgv.image = UIImage(data: food.image!);
+        cell?.title.text = food.name;
+        cell?.subTitle.text = "HK$\(food.price)";
         cell?.accessoryType = .disclosureIndicator
         
         return cell!;
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(FoodOrderVC(), animated: true);
+        let food: Food = model.foodList[indexPath.row];
+        self.navigationController?.pushViewController(FoodOrderVC(food: food), animated: true);
     }
 
 }
