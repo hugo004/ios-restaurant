@@ -22,14 +22,7 @@ class HomeVC: UITabBarController {
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Sam") , image: UIImage(named:"icon-settings-white"), tag: 1)
         return vc
     }()
-    
-    let Sam: UIViewController = {
-        let vc = MainVC()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Sam") , image: UIImage(named:"icon-settings-white"), tag: 1)
         
-        return vc
-    }()
-    
     var Terry: UIViewController = {
         let vc = UIViewController()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Terry"), image: UIImage(named:"icon-document"), tag: 1)
