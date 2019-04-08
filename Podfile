@@ -9,5 +9,6 @@ target 'ios-restaurant' do
   pod 'SnapKit', '~> 4.0.0'
   pod 'ReactiveCocoa', '~> 8.0'
   pod 'Onboard'
+  pod 'ImageSlideshow', '~> 1.6'
   
 end

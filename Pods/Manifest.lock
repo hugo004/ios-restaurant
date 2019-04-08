@@ -1,4 +1,7 @@
 PODS:
+  - ImageSlideshow (1.7.0):
+    - ImageSlideshow/Core (= 1.7.0)
+  - ImageSlideshow/Core (1.7.0)
   - Onboard (2.3.3)
   - ReactiveCocoa (8.0.2):
     - ReactiveSwift (~> 4.0)
@@ -8,12 +11,14 @@ PODS:
   - SnapKit (4.0.1)
 
 DEPENDENCIES:
+  - ImageSlideshow (~> 1.6)
   - Onboard
   - ReactiveCocoa (~> 8.0)
   - SnapKit (~> 4.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ImageSlideshow
     - Onboard
     - ReactiveCocoa
     - ReactiveSwift
@@ -21,12 +26,13 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
+  ImageSlideshow: f8eec5e37a980f60923b585ff23b0e140fd24018
   Onboard: 4d6e943e20bdd6bc229df967a347dd7514bc2a6f
   ReactiveCocoa: fbd26e9ba60e98417ee47433e59465a98ed9da0f
   ReactiveSwift: a2bb9ace428a109e9c0209615645d9d286c8c433
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: 60d0e39413536884232a5097fb192540235d34d0
+PODFILE CHECKSUM: 8755f027688caa6b6b7963f4a7d0a2154790b20a
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
