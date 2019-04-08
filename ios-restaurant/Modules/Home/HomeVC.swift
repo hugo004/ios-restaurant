@@ -32,7 +32,7 @@ class HomeVC: UITabBarController {
     
     
     var Renee: UIViewController = {
-        let vc = UIViewController()
+        let vc = RestaurantMenu()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Renee"), image: UIImage(named:"icon-document"), tag: 1)
         
         return vc
