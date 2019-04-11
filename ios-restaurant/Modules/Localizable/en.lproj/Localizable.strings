@@ -6,8 +6,22 @@
   Copyright © 2019 Hugo. All rights reserved.
 */
 
+//common
+"common_add" = "Add";
+"common_cancel" = "Cancel";
+"common_refresh" = "Refresh";
+"common_gallery" = "Gallery";
+"common_camera" = "Camera";
+"common_setting" = "Setting";
+
+//permission
+"permission_no_permission" = "No Permission";
+
+//home
 "home_setting" = "Setting";
 "home_profile" = "Profile";
+
+
 
 //setting
 "setting_aboutapp" = "About App";
@@ -24,6 +38,18 @@
 "profile_dob" = "Date of Born";
 "profile_weight" = "Weight";
 "profile_height" = "Height";
+"profile_edit" = "Edit";
 
 //food
 "food_share" = "Share";
+"food_price" = "Price(HK$): ";
+"food_status" = "Status: ";
+"food_onSale" = "On Sale";
+"food_soldOut" = "Sould Out";
+"food_ingredient" = "Ingredient:";
+"food_placeholder_name" = "Please enter food name";
+"food_no_image" = "No available food image";
+"food_add" = "Add";
+"food_update" = "Update";
+"food_added" = "Food added successfully";
+"food_updated" = "Food updated successfully";

@@ -6,7 +6,20 @@
   Copyright © 2019 Hugo. All rights reserved.
 */
 
+//common
+"common_add" = "新增";
+"common_cancel" = "取消";
+"common_refresh" = "刷新";
+"common_gallery" = "相簿";
+"common_camera" = "相機";
+"common_setting" = "設定";
+
+//permission
+"permission_no_permission" = "沒有權限";
+
+//home
 "home_setting" = "設置";
+"home_profile" = "個人資料";
 
 //setting
 "setting_aboutapp" = "關於應用";
@@ -17,3 +30,23 @@
 //language
 "language_chinese" = "中文";
 "language_english" = "英文";
+
+//profie
+"profile_dob" = "出生日期";
+"profile_weight" = "體重";
+"profile_height" = "身高";
+"profile_edit" = "編輯";
+
+//food
+"food_share" = "分享";
+"food_price" = "價格(HK$): ";
+"food_status" = "狀態: ";
+"food_onSale" = "在售";
+"food_soldOut" = "售完";
+"food_ingredient" = "成分:";
+"food_placeholder_name" = "請輸入食物名稱";
+"food_no_image" = "沒有食物圖片";
+"food_add" = "添加";
+"food_update" = "更新";
+"food_added" = "食物添加成功";
+"food_updated" = "食物更新成功";

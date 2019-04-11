@@ -27,6 +27,7 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
         // Do any additional setup after loading the view.
 //        self.navigationController?.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: UIColor.while};
         
+        
     }
     
 
@@ -177,6 +178,16 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
         self.present(alert, animated: true, completion: nil);
     }
     
+    func alertMessage(message: String) {
+        let alert: UIAlertController = UIAlertController(title: nil, message: message, preferredStyle: .alert);
+        
+        let cancel = UIAlertAction(title: Helper.Localized(key: "common_cancel"), style: .cancel) { _ in
+            alert.dismiss(animated: true, completion: nil);
+        };
+        
+        alert.addAction(cancel);
+        self.present(alert, animated: true, completion: nil);
+    }
     
 
 }

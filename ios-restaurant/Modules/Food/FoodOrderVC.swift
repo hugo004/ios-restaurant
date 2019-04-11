@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 class OrderButton: UIView {
     let order: UILabel = {
@@ -116,7 +117,6 @@ class FoodOrderView: UIView {
     
     var foodTitle: EditableLabel! = {
         let lbl = EditableLabel();
-        lbl.text = "Food name";
         lbl.font = UIFont.systemFont(ofSize: 20, weight: .semibold);
 
         
@@ -125,22 +125,27 @@ class FoodOrderView: UIView {
     
     var price: EditableLabel! = {
         let lbl = EditableLabel();
-        lbl.text = "Price";
-        lbl.keyboardType = UIKeyboardType.decimalPad;
+        lbl.keyboardType = UIKeyboardType.numberPad;
         
         return lbl;
     }();
     
     var priceLabel: UILabel! = {
         let lbl = UILabel();
-        lbl.text = "Price";
+        lbl.text = Helper.Localized(key: "food_price");
+        
+        return lbl;
+    }();
+    
+    var ingredient: UILabel! = {
+        let lbl = UILabel();
+        lbl.text = Helper.Localized(key: "food_ingredient");
         
         return lbl;
     }();
     
     var remark: UITextView! = {
         let remark = UITextView();
-        remark.text = "Remark for the food: e.g more rice";
         remark.font = UIFont.systemFont(ofSize: 17, weight: .light);
         remark.clipsToBounds = true;
         remark.layer.cornerRadius = 5
@@ -159,14 +164,13 @@ class FoodOrderView: UIView {
     
     var status: EditableLabel = {
         let lbl = EditableLabel();
-        lbl.text = "Status: (On sale / Sale out)";
         
         return lbl;
     }();
     
     var statusLable: UILabel = {
         let lbl = UILabel();
-        lbl.text = "Status: ";
+        lbl.text = Helper.Localized(key: "food_status");
         
         return lbl;
     }();
@@ -203,14 +207,15 @@ class FoodOrderView: UIView {
     func initView() {
         self.addSubview(food);
         self.addSubview(foodTitle);
+        self.addSubview(price);
+        self.addSubview(status);
         self.addSubview(remark);
         self.addSubview(orderButton);
-        self.addSubview(status);
         self.addSubview(confirmButton);
-        self.addSubview(price);
         self.addSubview(foodImageButton);
         self.addSubview(statusLable);
         self.addSubview(priceLabel);
+        self.addSubview(ingredient);
         
         food.snp.makeConstraints { (make) in
             make.top.width.equalTo(self);
@@ -249,8 +254,13 @@ class FoodOrderView: UIView {
             make.top.equalTo(price.snp.bottom).offset(10);
         }
         
+        ingredient.snp.makeConstraints { (make) in
+            make.left.equalTo(foodTitle);
+            make.top.equalTo(status.snp.bottom).offset(20);
+        }
+        
         remark.snp.makeConstraints { (make) in
-            make.top.equalTo(status.snp.bottom).offset(15);
+            make.top.equalTo(ingredient.snp.bottom).offset(5);
             make.left.equalTo(self).offset(20);
             make.right.equalTo(self).offset(-20);
             make.height.equalTo(200);
@@ -279,6 +289,7 @@ class FoodOrderView: UIView {
         status.isEditable = isEdit;
         
         foodImageButton.isEnabled = isEdit;
+        foodImageButton.isHidden = !isEdit;
         confirmButton.isHidden = !isEdit;
     }
 }
@@ -305,17 +316,30 @@ class FoodOrderModel {
         self.food = food;
     }
     
+    init(type: FoodType) {
+        self.food = Food(type: type); //new food
+    }
+    
 }
 
-class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var orderView: FoodOrderView!;
     var model: FoodOrderModel!;
     var newFoodStatus: FoodStatus!;
+    var isNewFood: Bool = false;
+    var newFoodImage: UIImage?;
     
     init(food: Food) {
         super.init(nibName: nil, bundle: nil);
         model = FoodOrderModel(food: food);
+    }
+    
+    init(type: FoodType) {
+        super.init(nibName: nil, bundle: nil);
+        model = FoodOrderModel(type: type);
+        isNewFood = true;
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -325,19 +349,28 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
         orderView = FoodOrderView();
-        orderView.food.image = UIImage(data:model.food.image!);
+        
+        if isNewFood {
+            orderView.confirmButton.setTitle(Helper.Localized(key: "food_add"), for: .normal);
+            orderView.food.backgroundColor = UIColor.lightGray;
+            orderView.foodTitle.placeholder = Helper.Localized(key: "food_placeholder_name");
+        }else {
+            orderView.foodImageButton.setTitle("", for: .normal);
+        }
+        
+        orderView.food.image = UIImage(data:model.food.image ?? Data());
         orderView.foodTitle.text = model.food.name;
         
         //food price
-        orderView.priceLabel.text = "Price: HK$";
         orderView.price.text  = "\(model.food.price)";
         
         //food status
-        orderView.statusLable.text = "Status:";
         orderView.status.text = model.food.status == 1 ? Helper.Localized(key: "food_onSale") : Helper.Localized(key: "food_soldOut");
         newFoodStatus = FoodStatus(rawValue: model.food.status);
+        
+        //food ingredient
+        orderView.remark.text = model.food.ingredient;
         
         //picker view setting
         orderView.statusPickerView.delegate = self;
@@ -365,17 +398,21 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
         orderView.foodImageButton.reactive.controlEvents(.touchUpInside).observe { _ in
             let bottomSheet =  UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet);
             
-            let gallery = UIAlertAction(title: Helper.Localized(key: "permission_gallery"), style: .default, handler: { _ in
+            let gallery = UIAlertAction(title: Helper.Localized(key: "common_gallery"), style: .default, handler: { _ in
                 //open gallery
                 if !Helper.isGalleryPermissionGranted() {
                     self.requestPermission(title: nil);
+                }else {
+                    self.photoGallery();
                 }
             });
             
-            let camera = UIAlertAction(title: Helper.Localized(key: "permission_camera"), style: .default, handler: { _ in
+            let camera = UIAlertAction(title: Helper.Localized(key: "common_camera"), style: .default, handler: { _ in
                 //open camera
                 if !Helper.isCameraPermissionGranted() {
                     self.requestPermission(title: nil);
+                }else {
+                    self.takePhoto();
                 }
             });
             
@@ -395,19 +432,46 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
         orderView.confirmButton.reactive.controlEvents(.touchUpInside).observe { _ in
             let name = self.orderView.foodTitle.text;
             let price = Int(self.orderView.price.text!);
-            let image = self.orderView.food.image;
             let type = FoodType(rawValue: self.model.food.type);
+            let ingredient = self.orderView.remark.text;
+            //rotate the image, image select from gallery or camera will up-side-down
+//            let image = (self.newFoodImage != nil) ? self.newFoodImage?.rotate(radians: .pi) : self.orderView.food.image;
+
+            let image = self.newFoodImage?.rotate(radians: .pi);
+
+            let newFood = Food(name: name!, price: price!, image: image!, type: type!, status: self.newFoodStatus, ingredient: ingredient);
             
-            let newVal = Food(name: name!, price: price!, image: image!, type: type!, status: self.newFoodStatus);
-            StorageHelper.updateFoods(old: self.model.food, new: newVal);
+            if self.isNewFood {
+                self.addFood(newFood: newFood);
+            } else {
+                self.updateFood(newFood: newFood);
+            }
         }
         
         
     }
     
+    func  addFood(newFood: Food) {
+        StorageHelper.addFoods(data: newFood);
+        self.alertMessage(message: Helper.Localized(key: "food_added"));
+    }
+    
+    func updateFood(newFood: Food) {
+        StorageHelper.updateFoods(old: self.model.food, new: newFood);
+        self.orderView.editMode(isEdit: false);
+        
+        self.alertMessage(message: Helper.Localized(key: "food_updated"));
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
-        orderView.editMode(isEdit: false);
+        
+        if isNewFood {
+            orderView.editMode(isEdit: true);
+        }
+        else {
+            orderView.editMode(isEdit: false);
+        }
     }
     
     @objc func enableEdit() {
@@ -444,5 +508,35 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
         newFoodStatus = FoodStatus(rawValue: model.status[row].value);
     }
     
+    //MARK: - photos
+    func takePhoto() {
+        let picker: UIImagePickerController = UIImagePickerController();
+        picker.delegate = self;
+        picker.allowsEditing = false;
+        picker.sourceType = .camera;
+        self.navigationController?.present(picker, animated: true, completion: nil);
+    }
+    
+    func photoGallery() {
+        let picker: UIImagePickerController = UIImagePickerController();
+        picker.delegate = self;
+        picker.allowsEditing = false;
+        picker.sourceType = .photoLibrary;
+        self.navigationController?.present(picker, animated: true, completion: nil);
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage;
+        newFoodImage = img;
+        
+        picker.dismiss(animated: true) {
+            self.orderView.food.image = img;
+            self.orderView.foodImageButton.setTitle("", for: .normal);
+        }
+    }
+    
 
+
+    
+    
 }

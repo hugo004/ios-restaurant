@@ -40,18 +40,28 @@ struct Food: Codable {
         self.status = FoodStatus.OnSale.rawValue;
     }
     
-    init(name: String, price: Int, image: UIImage, type: FoodType, status: FoodStatus) {
+    init(name: String, price: Int, image: UIImage, type: FoodType, status: FoodStatus, ingredient: String?) {
         self.name = name;
         self.price = price;
         self.image = image.pngData()!;
-        self.ingredient = "";
+        self.ingredient = ingredient;
         self.type = type.rawValue;
         self.status = status.rawValue;
     }
     
+    
     init(name: String, price: Int, type: FoodType) {
         self.name = name;
         self.price = price;
+        self.image = nil;
+        self.ingredient = "";
+        self.type = type.rawValue;
+        self.status = FoodStatus.OnSale.rawValue;
+    }
+    
+    init(type: FoodType) {
+        self.name = "";
+        self.price = 1;
         self.image = nil;
         self.ingredient = "";
         self.type = type.rawValue;
@@ -69,6 +79,34 @@ struct FoodCategory: Codable {
     }
 }
 
+struct UserInfo: Codable {
+    var role: String
+    var name: String
+    var height: Int
+    var weight: Int
+    var dob: Date
+    var icon: Data?
+    
+    init(name: String, height: Int, weight: Int, dob: Date, icon: UIImage, role: String) {
+        self.name = name;
+        self.height = height;
+        self.weight = weight;
+        self.dob = dob;
+        self.icon = icon.pngData();
+        self.role = role;
+    }
+    
+    init() {
+        self.name = "";
+        self.height = 0;
+        self.weight = 0;
+        self.dob = Date();
+        self.icon = nil;
+        self.role = "";
+    }
+}
+
+let User_Info_Key = "USER_INFO";
 
 class StorageHelper {
     
@@ -95,6 +133,7 @@ class StorageHelper {
         
     }
     
+    //MARK: - Food data
     //food category
     static func intiFoodData() {
         var category: [FoodCategory] = [];
@@ -157,7 +196,8 @@ class StorageHelper {
         return foods ?? [];
     }
     
-    static func addFoods(data: Food, type: FoodType) {
+    static func addFoods(data: Food) {
+        let type = FoodType(rawValue: data.type)!;
         var foods = retreiveFoods(type: type);
         foods.append(data);
         saveFoods(data: foods, type: type);
@@ -180,6 +220,26 @@ class StorageHelper {
             print("update food fail");
         }
         
+    }
+    
+    //MARK: - User profile
+    static func saveUserInfo(data: UserInfo) {
+        let encoded = try? PropertyListEncoder().encode(data); //custom object need encode first
+        UserDefaults.standard.setValue(encoded, forKey: User_Info_Key);
+        UserDefaults.standard.synchronize();
+    }
+    
+    static func getUserInfo() -> UserInfo {
+        var userInfo: UserInfo?;
+        if let data = UserDefaults.standard.value(forKey: User_Info_Key) as? Data {
+            userInfo = try? PropertyListDecoder().decode(UserInfo.self, from: data);
+        }
+        
+        return userInfo ?? UserInfo();
+    }
+    
+    static func updateUserInfo(new: UserInfo) {
+        saveUserInfo(data: new);
     }
 
 }

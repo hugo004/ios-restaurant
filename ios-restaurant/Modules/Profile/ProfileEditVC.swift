@@ -8,18 +8,6 @@
 
 import UIKit
 
-private class UserInfo {
-    struct DataSource {
-        var title: String
-        var data: String
-    }
-    
-    var info: [DataSource] = [
-        DataSource(title: Helper.Localized(key: "profile_dob"), data: "1111-01-01"),
-        DataSource(title: Helper.Localized(key: "profile_height"), data: "111"),
-        DataSource(title: Helper.Localized(key: "profile_weight"), data: "11 kg")
-    ]
-}
 
 class ProfileCell: UITableViewCell {
     
@@ -74,22 +62,67 @@ class ProfileCell: UITableViewCell {
     }
 }
 
+class ProfileEditModel {
+    
+    struct DataSource {
+        var title: String
+        var data: String
+    }
+
+    var userInfo: UserInfo = StorageHelper.getUserInfo();
+    var profileList:[DataSource]!;
+    
+    init() {
+        profileList = [
+            DataSource(title: Helper.Localized(key: "profile_dob"), data: Helper.date2String(date: userInfo.dob, format: "yyyy-MM-dd")),
+            DataSource(title: "\(Helper.Localized(key: "profile_height")) (cm)", data: String(userInfo.height)),
+            DataSource(title: "\(Helper.Localized(key: "profile_weight")) (kg)", data: String(userInfo.weight))
+        ];
+    }
+}
+
 class ProfileEditVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    enum Rows: Int {
+        case Dob = 0
+        case Height = 1
+        case Weight = 2
+    }
 
     var tableView: UITableView!;
     var isEditMode: Bool = false;
-    private var userInfo: UserInfo = UserInfo();
+    var model: ProfileEditModel = ProfileEditModel();
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initTableView();
         // Do any additional setup after loading the view.
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile_edit", style: .plain, target: self, action: #selector(editMode));
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Helper.Localized(key: "profile_edit"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(editMode));
+        
     }
     
     @objc func editMode() {
         isEditMode = !isEditMode;
+        
+        if isEditMode {
+            self.navigationItem.rightBarButtonItem?.title = Helper.Localized(key: "profile_update");
+        } else {
+            self.navigationItem.rightBarButtonItem?.title = Helper.Localized(key: "profile_edit");
+            
+            //update user Info
+            var newInfo = model.userInfo;
+            newInfo.height = Int(model.profileList[Rows.Height.rawValue].data)!;
+            newInfo.weight = Int(model.profileList[Rows.Weight.rawValue].data)!;
+            newInfo.dob = Helper.string2Date(dateString: model.profileList[Rows.Dob.rawValue].data);
+            
+            StorageHelper.updateUserInfo(new: newInfo);
+            
+        }
+        
         tableView.reloadData();
     }
     
@@ -114,20 +147,21 @@ class ProfileEditVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userInfo.info.count;
+        return model.profileList.count;
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView(frame: tableView.frame);
         
-        let icon = UIImageView(image: UIImage(named: "icon-profile-avatar"));
+        let image = UIImage(data: model.userInfo.icon ?? Data()) ?? UIImage(named: "icon-profile-avatar");
+        let icon = UIImageView(image: image);
         icon.clipsToBounds = true;
         icon.layer.borderWidth = 1;
         icon.layer.cornerRadius = 50 / 2 ;
         icon.layer.borderColor = UIColor.lightGray.cgColor;
         
         let role = UILabel();
-        role.text = "User name (Staff)";
+        role.text = "\(model.userInfo.name) (\(model.userInfo.role))";
         
         header.addSubview(icon);
         header.addSubview(role);
@@ -156,16 +190,33 @@ class ProfileEditVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         if cell == nil {
             cell = ProfileCell(style: .subtitle, reuseIdentifier: identifier);
             cell?.selectionStyle = .none;
+            cell?.editField.keyboardType = .numberPad;
+            //observer text change
+            cell?.editField.reactive.controlEvents(.editingDidEnd).observe({ _ in
+                self.model.profileList[indexPath.row].data = (cell?.editField.text)!;
+            })
         }
         
-        cell?.textLabel?.text = userInfo.info[indexPath.row].title;
-        cell?.editField?.text = userInfo.info[indexPath.row].data;
+        
+        cell?.textLabel?.text = model.profileList[indexPath.row].title;
+        cell?.editField?.text = model.profileList[indexPath.row].data;
         cell?.toggleEditMode(isEditing: isEditMode);
+        
+        
+        if indexPath.row == Rows.Dob.rawValue {
+            let picker = UIDatePicker();
+            picker.datePickerMode = .date;
+            picker.maximumDate = Date();
+            
+            picker.reactive.controlEvents(.valueChanged).observe { _ in
+                cell?.editField.text = Helper.date2String(date: picker.date, format: "yyyy-MM-dd");
+            }
+            
+            cell?.editField.inputView = picker;
+        }
         
         return cell!;
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    }
 
 }

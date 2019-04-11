@@ -48,7 +48,7 @@ class HomeVC: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        StorageHelper.clearAllStorage();
+        StorageHelper.clearAllStorage();
         if StorageHelper.getFoodCategetory().count < 1 {
             StorageHelper.intiFoodData();
         }

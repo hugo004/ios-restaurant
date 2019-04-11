@@ -42,9 +42,12 @@ class FoodDetailModel {
     var category: FoodCategory!;
     var foodList: [Food] = [];
     
+    
     init(category: FoodCategory) {
         self.category = category;
-        
+    }
+    
+    func reloadData() {
         foodList = StorageHelper.retreiveFoods(type: FoodType(rawValue: category.category)!);
     }
 }
@@ -83,6 +86,12 @@ class FoodDetailVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             make.size.equalTo(80);
         }
         
+        //refresh button
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Helper.Localized(key: "common_refresh"),
+                                                                 style: .done,
+                                                                 target: self,
+                                                                 action: #selector(refresh))
+        
         //food button click event
         foodButton.reactive.controlEvents(.touchUpInside).observe { _ in
             self.addFood();
@@ -90,12 +99,25 @@ class FoodDetailVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func addFood() {
-        
+    @objc func refresh() {
+        model.reloadData();
+        tableView.reloadData();
     }
     
+    func addFood() {
+        //new food with current category
+        let category = FoodType(rawValue: model.category.category)!;
+        let foodVC = FoodOrderVC(type: category);
+        self.navigationController?.pushViewController(foodVC, animated: true);
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        refresh();
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated);
+        
     }
     
     func initTableView() -> Void {

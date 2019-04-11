@@ -101,12 +101,17 @@ class Helper {
         return havePermission;
     }
     
-    func string2Date(dateString:String) -> Date {
+    static func string2Date(dateString:String) -> Date {
         let df:DateFormatter = DateFormatter();
         df.dateFormat = "yyyy/MM/dd HH:mm";
         return df.date(from: dateString)!;
     }
     
+    static func date2String(date: Date, format: String) -> String {
+        let df:DateFormatter = DateFormatter();
+        df.dateFormat = format;
+        return (date != nil) ? df.string(from:date) : "";
+    }
     
     static func date2TimeString(date:Date?) -> String {
         let df:DateFormatter = DateFormatter();

@@ -71,20 +71,19 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView(frame: tableView.frame);
         
-        let icon = UIImageView(image: UIImage(named: "icon-profile-avatar"));
+        let userInfo = StorageHelper.getUserInfo();
+        let image = UIImage(data: userInfo.icon ?? Data()) ?? UIImage(named: "icon-profile-avatar");
+        let icon = UIImageView(image: image);
         icon.clipsToBounds = true;
         icon.layer.borderWidth = 1;
         icon.layer.cornerRadius = 50 / 2 ;
         icon.layer.borderColor = UIColor.lightGray.cgColor;
         
         let role = UILabel();
-        role.text = "User name (Staff)";
-        
-        let button = UIButton(frame: header.frame);
+        role.text = "\(userInfo.name) (\(userInfo.role))";
         
         header.addSubview(icon);
         header.addSubview(role);
-        header.addSubview(button);
         
         icon.snp.makeConstraints { (make) in
             make.top.equalTo(header).offset(15);
@@ -98,10 +97,12 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             make.left.equalTo(icon.snp.right).offset(20);
         }
         
+        let button = UIButton(frame: header.frame);
+        header.addSubview(button);
+        
         button.reactive.controlEvents(.touchUpInside).observe { _ in
             self.navigationController?.pushViewController(ProfileEditVC(), animated: true);
         }
-
         
         return header;
         
