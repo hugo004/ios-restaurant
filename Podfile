@@ -10,5 +10,6 @@ target 'ios-restaurant' do
   pod 'ReactiveCocoa', '~> 8.0'
   pod 'Onboard'
   pod 'ImageSlideshow', '~> 1.6'
+  pod 'IQKeyboardManagerSwift'
   
 end

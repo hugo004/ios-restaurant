@@ -87,7 +87,6 @@ class EditableLabel: UITextField {
     
     override init(frame: CGRect) {
         super.init(frame: frame);
-        self.showToolBar();
     }
     
     convenience init() {
@@ -141,7 +140,6 @@ class FoodOrderView: UIView {
     
     var remark: UITextView! = {
         let remark = UITextView();
-        remark.showToolBar();
         remark.text = "Remark for the food: e.g more rice";
         remark.font = UIFont.systemFont(ofSize: 17, weight: .light);
         remark.clipsToBounds = true;
