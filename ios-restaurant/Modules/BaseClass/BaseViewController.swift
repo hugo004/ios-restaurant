@@ -15,9 +15,10 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
     var base: CGFloat = 10;
     var rect: CGRect = CGRect.zero;
     var barStyle: UIStatusBarStyle = .default;
+    var originColor: UIColor! = UIColor(red:0.28, green:0.26, blue:0.26, alpha:1.0);
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return barStyle;
+        return self.barStyle;
     }
     
     override func viewDidLoad() {
@@ -35,7 +36,8 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.setNavigationBarHidden(false, animated: animated);
         self.setTitleColor(color: UIColor.black);
         self.setNavBarColor(color: UIColor.white);
-        
+        self.setNavBarTintColor(color: originColor);
+
         
         if headerView != nil {
             self.setNavBarTintColor(color: UIColor.white);
@@ -69,6 +71,7 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.navigationBar.tintColor = color;
         self.navigationItem.leftBarButtonItem?.tintColor = color;
         self.navigationItem.rightBarButtonItem?.tintColor = color;
+        
     }
     
     func setTransparentNavBar(active: Bool) {
@@ -113,7 +116,6 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
             let offsetY: CGFloat = scrollView.contentOffset.y;
             
             //change navigation bar
-            
             let alpha: CGFloat       = offsetY / base;
             let  color:UIColor      = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: alpha);
             let changeLimit: CGFloat = 0.75;
@@ -121,20 +123,24 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
             
             self.navigationController?.navigationBar.backgroundColor         = color;
             self.navigationController?.navigationBar.tintColor               = UIColor(hue: 1, saturation: alpha, brightness: 1, alpha: 1);
+            
+            //get statu bar view, make the color same with status bar view
+            UIApplication.shared.StatusBar().backgroundColor = color;
+        
             let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame);
-            statusBarView.frame = CGRect(origin: statusBarView.frame.origin, size: CGSize(width: statusBarView.frame.size.width, height: statusBarView.frame.size.height+50));
+            statusBarView.frame = CGRect(origin: statusBarView.frame.origin, size: CGSize(width: statusBarView.frame.size.width, height: statusBarView.frame.size.height));
             statusBarView.backgroundColor = color;
             
             
             if (alpha > changeLimit)
             {
-                self.setNavBarTintColor(color: .black);
-                barStyle = .default;
+                self.setNavBarTintColor(color: originColor);
+                self.barStyle = .default;
             }
             else
             {
                 self.setNavBarTintColor(color: .white);
-                barStyle = .lightContent;
+                self.barStyle = .lightContent;
             }
             
             self.setNeedsStatusBarAppearanceUpdate();
@@ -154,19 +160,21 @@ class BaseViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    func requestPermission(title: String) {
-//        UIAlertController *alert = [UIAlertController  alertControllerWithTitle:title
-//            message:LocalizedString(@"permission_message") preferredStyle:UIAlertControllerStyleAlert];
-//
-//        UIAlertAction *goToSettingAction = [UIAlertAction actionWithTitle:LocalizedString(@"permission_settings") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-//            }];
-//
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:LocalizedString(@"permission_cancel") style:UIAlertActionStyleCancel handler:nil];
-//
-//        [alert addAction:cancelAction];
-//        [alert addAction:goToSettingAction];
-//        [self presentViewController:alert animated:YES completion:nil];
+    func requestPermission(title: String?) {
+        let alert: UIAlertController = UIAlertController(title: title, message: Helper.Localized(key: "permission_no_permission"), preferredStyle: .alert);
+        
+        let ok = UIAlertAction(title: Helper.Localized(key: "common_setting"), style: .destructive) { _ in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        };
+        
+        let cancel = UIAlertAction(title: Helper.Localized(key: "common_cancel"), style: .cancel) { _ in
+            alert.dismiss(animated: true, completion: nil);
+        };
+        
+        alert.addAction(ok);
+        alert.addAction(cancel);
+        
+        self.present(alert, animated: true, completion: nil);
     }
     
     

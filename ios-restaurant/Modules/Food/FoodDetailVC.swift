@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class FoodDetailHeaderView: UIView {
     var imageView: UIImageView! = {
@@ -48,10 +49,11 @@ class FoodDetailModel {
     }
 }
 
-class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FoodDetailVC: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!;
     var model: FoodDetailModel!;
+    var foodButton: UIButton!;
     
     init(category: FoodCategory) {
         super.init(nibName: nil, bundle: nil);
@@ -62,25 +64,38 @@ class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white;
         
         initTableView();
-        // Do any additional setup after loading the view.
+        
+        //define add food button
+        foodButton = UIButton(type: .custom);
+        foodButton.setBackgroundImage(UIImage(named:"btn-plus"), for: .normal);
+        self.view.addSubview(foodButton);
+        foodButton.snp.makeConstraints { (make) in
+            make.bottom.right.equalTo(self.view.safeAreaLayoutGuide).offset(-20);
+            make.size.equalTo(80);
+        }
+        
+        //food button click event
+        foodButton.reactive.controlEvents(.touchUpInside).observe { _ in
+            self.addFood();
+        }
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-//        self.setTransparentNavBar(active: true);
-//        self.setNavBarTintColor(color: .white);
+    func addFood() {
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-//        self.setTransparentNavBar(active: false);
-//        self.setNavBarTintColor(color: .black);
-
+        super.viewWillDisappear(animated);
     }
     
     func initTableView() -> Void {
@@ -94,22 +109,24 @@ class FoodDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0);
         tableView.separatorStyle = .singleLine;
         tableView.backgroundColor = UIColor.white;
+        tableView.bounces = false;
         
         
         //set header view
-        let header = FoodDetailHeaderView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200));
+        let header = FoodDetailHeaderView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 350));
         header.imageView.image = UIImage(data: model.category.image);
+        header.imageView.contentMode = .scaleToFill;
         tableView.tableHeaderView = header;
         
         self.view.addSubview(tableView);
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(self.view.safeAreaLayoutGuide);
-            make.top.equalTo(self.view).offset(-0);
+            make.top.equalTo(self.view).offset(-height);
         }
 
         
-//        let limit: CGFloat   = header.frame.size.height - ((self.navigationController?.navigationBar.frame.size.height)!) - 50;
-//        self.setNavBarTransparentEffect(base: limit, hearder: header);
+        let limit: CGFloat   = header.frame.size.height - ((self.navigationController?.navigationBar.frame.size.height)!) - 50;
+        self.setNavBarTransparentEffect(base: limit, hearder: header);
         
     }
     

@@ -18,11 +18,17 @@ enum FoodType: String {
 
 }
 
+enum FoodStatus: Int {
+    case OnSale = 1
+    case SoldOut = 0
+}
+
 struct Food: Codable {
     var name: String
     var price: Int
     var image: Data?
-    var ingredient: String
+    var ingredient: String?
+    var status: Int
     var type: String
     
     init(name: String, price: Int, image: UIImage, type: FoodType) {
@@ -31,6 +37,16 @@ struct Food: Codable {
         self.image = image.pngData()!;
         self.ingredient = "";
         self.type = type.rawValue;
+        self.status = FoodStatus.OnSale.rawValue;
+    }
+    
+    init(name: String, price: Int, image: UIImage, type: FoodType, status: FoodStatus) {
+        self.name = name;
+        self.price = price;
+        self.image = image.pngData()!;
+        self.ingredient = "";
+        self.type = type.rawValue;
+        self.status = status.rawValue;
     }
     
     init(name: String, price: Int, type: FoodType) {
@@ -39,6 +55,7 @@ struct Food: Codable {
         self.image = nil;
         self.ingredient = "";
         self.type = type.rawValue;
+        self.status = FoodStatus.OnSale.rawValue;
     }
 }
 
@@ -54,6 +71,14 @@ struct FoodCategory: Codable {
 
 
 class StorageHelper {
+    
+    static func clearAllStorage() {
+        let userDefault = UserDefaults.standard;
+        let dic = userDefault.dictionaryRepresentation();
+        dic.keys.forEach { (key) in
+            userDefault.removeObject(forKey: key);
+        }
+    }
     
     static func setupFoodData(size: Int, name: String, price: Int, category: FoodType) {
         let prefix = category.rawValue.lowercased();
@@ -136,6 +161,25 @@ class StorageHelper {
         var foods = retreiveFoods(type: type);
         foods.append(data);
         saveFoods(data: foods, type: type);
+    }
+    
+    static func updateFoods(old: Food, new: Food) {
+        let type = FoodType(rawValue: old.type)!;
+        var foods = retreiveFoods(type: type);
+        var index = -1;
+        
+        index = foods.firstIndex { (food) -> Bool in
+            //compare image data to find the index, image data should unique
+            return food.image == old.image;
+        }!
+        
+        if index != -1 {
+            foods[index] = new;
+            saveFoods(data: foods, type: type);
+        }else {
+            print("update food fail");
+        }
+        
     }
 
 }

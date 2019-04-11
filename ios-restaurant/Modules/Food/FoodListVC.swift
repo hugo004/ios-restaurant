@@ -55,6 +55,7 @@ class FoodListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = FoodListCell(style: .default, reuseIdentifier: identifier);
             cell?.selectionStyle = .none;
+            cell?.foodImgv.contentMode = .scaleAspectFill;
         }
         let category = model.foodList[indexPath.row];
         
