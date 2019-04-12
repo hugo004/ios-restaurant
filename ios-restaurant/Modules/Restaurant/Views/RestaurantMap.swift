@@ -28,11 +28,8 @@ class RestaurantMap: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(imgMap)
+        imgMap.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: frame.size.width, height: frame.size.height, enableInsets: false)
         
-        imgMap.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(0)
-            make.centerY.equalTo(self)
-        }
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

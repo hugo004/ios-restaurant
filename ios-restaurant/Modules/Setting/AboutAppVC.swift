@@ -15,7 +15,15 @@ class AboutAppVC: UIViewController {
         
         self.view.backgroundColor = UIColor.white;
         // Do any additional setup after loading the view.
-        let lbl = UILabel(frame: CGRect(x: 0, y: 20, width: self.view.bounds.width, height: 300));
+        let img = UIImageView(frame: CGRect(x: self.view.bounds.width / 2 - 43.5, y: self.view.bounds.height / 2 - 200, width: 87, height: 87))
+        img.image = UIImage(named: "map")
+        img.contentMode = .scaleAspectFit
+        self.view.addSubview(img)
+        
+        img.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        img.centerYAnchor.constraint(equalTo:self.view.centerYAnchor).isActive = true
+        
+        let lbl = UILabel(frame: CGRect(x: 0, y:  self.view.bounds.height / 2 - 150, width: self.view.bounds.width, height: 300));
         lbl.text = Helper.Localized(key: "ec_desc");
         lbl.backgroundColor = UIColor.white
         lbl.numberOfLines = 0
