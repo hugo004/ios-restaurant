@@ -8,6 +8,9 @@
 
 import UIKit
 import ImageSlideshow
+import CoreLocation
+
+
 
 
 private let identifier  = "Cell"
@@ -24,19 +27,110 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     var horizontalCollectionViewFlowLayout: UICollectionViewFlowLayout!
     var verticalCollectionViewFlowLayout: UICollectionViewFlowLayout!
     
+    var rsDatas : [Restaurant]!
+    
+    var nearData : [Restaurant] = [];
+    var nearDin : [Double] = [];
+    var newData : [Restaurant] = [];
+    var moreData : [Restaurant] = [];
+    
     var table0 = ["imageSlide"]
     var table1 = ["Near by you"]
     var table2 = ["New Add"]
     var table3 = ["More"]
+    
+    let locationManager = CLLocationManager()
+    var location: CLLocation?
+    var isUpdatingLocation = false
+    var lastLocationError: Error?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        StorageHelper.initRestaurantData()
+        rsDatas = StorageHelper.getRestaurant()
+        
+        //findLocation()
+        checkData(rss:rsDatas)
+        
         initView()
 
         // Do any additional setup after loading the view.
     }
+    
+    func findLocation() {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if authorizationStatus == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+            return
+        }
+        
+        if authorizationStatus == .denied || authorizationStatus == .restricted {
+            reportLocationServicesDeniedError()
+            return
+        }
+        
+        if isUpdatingLocation {
+            stopLocationManager()
+        } else{
+            location = nil
+            lastLocationError = nil
+            startLocationManger()
+        }
+    }
+    
+    func startLocationManger() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            isUpdatingLocation = true
+        }
+    }
+    
+    func stopLocationManager(){
+        if isUpdatingLocation {
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+            isUpdatingLocation = true
+        }
+    }
+    
+    func reportLocationServicesDeniedError() {
+        let alert = UIAlertController(title: "Location Services Disabled.", message: "Please go to Setting > Privacy to enable location services for this app.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(okAction)
+        
+        present(alert,animated: true,completion: nil)
+    }
+
+    
+    func checkData(rss: [Restaurant]) {
+        var myLocation = CLLocation(latitude: CLLocationDegrees(22.3361705), longitude: CLLocationDegrees(114.1742634))
+        
+        for i in 0...rss.count-1 {
+            var rsLocation = CLLocation(latitude: CLLocationDegrees(rss[i].lat), longitude: CLLocationDegrees(rss[i].long))
+            let distance = myLocation.distance(from: rsLocation) / 1000
+            
+            if rss[i].name == "品香樓中西風味餐廳 Ban Heung Lau"{
+                newData.append(rss[i])
+            }else if rss[i].name == "榕記車仔麵 Yung Kee" {
+                newData.append(rss[i])
+            }else if distance < 1 {
+                nearData.append(rss[i])
+                nearDin.append(distance)
+            }else {
+                moreData.append(rss[i])
+            }
+        }
+        
+        
+    }
+    
     
     func initView() -> Void {
         self.view.backgroundColor = UIColor.white
@@ -93,6 +187,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let count = moreData.count
+        let height = 230*count+40+20*count
         if indexPath.section == 0 {
             return 200
         }else if indexPath.section == 1 {
@@ -100,7 +196,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         }else if indexPath.section == 2 {
             return 240
         }else if indexPath.section == 3 {
-            return 230*10+40+165
+            return CGFloat(height)
         }
         return 60
     }
@@ -124,8 +220,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         
         if indexPath.section == 0 {
             cell.contentView.addSubview(imageSlideView(images: [
-                ImageSource(image: UIImage(named: "t1")!),
-                ImageSource(image: UIImage(named: "t2")!)
+                ImageSource(image: UIImage(named: "P1")!),
+                ImageSource(image: UIImage(named: "P2")!)
                 ]))
             cell.backgroundColor = UIColor.black
         }else if indexPath.section == 1 {
@@ -201,8 +297,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     }
     
     func moreCollectionView() -> UIView {
+        let count = moreData.count
+        let height = 230*count+40+10*count
         let displayWidth: CGFloat = self.view.frame.width
-        moreCv = UICollectionView(frame: CGRect(x: 0, y: 40, width: displayWidth, height: 230*10+40+100), collectionViewLayout: verticalCollectionViewLayoutSetup())
+        moreCv = UICollectionView(frame: CGRect(x: 0, y: 40, width: Int(displayWidth), height: height), collectionViewLayout: verticalCollectionViewLayoutSetup())
         moreCv.delegate = self
         moreCv.dataSource = self
         moreCv.register(VerticalCollectionViewCell.self, forCellWithReuseIdentifier: morecollectionIdentifier)
@@ -215,9 +313,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.addAddCv {
-            return 5
-        }else{
-           return 10
+            return newData.count
+        }else if collectionView == self.moreCv {
+           return moreData.count
+        }else {
+            return newData.count
         }
         
     }
@@ -225,25 +325,51 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.addAddCv {
             let coCell = addAddCv.dequeueReusableCell(withReuseIdentifier: addcollectionIdentifier, for: indexPath) as! HorizontalCollectionViewCell
-            coCell.lblDistance.text = "1"
-            coCell.lblName.text = "1"
+            coCell.imageView.image = UIImage(data: newData[indexPath.row].img!)
+            coCell.lblName.text = newData[indexPath.row].name
             
             return coCell
         }else if collectionView == self.nearByCv{
             let coCell = nearByCv.dequeueReusableCell(withReuseIdentifier: nearcollectionIdentifier, for: indexPath) as! HorizontalCollectionViewCell
-            coCell.lblDistance.text = "123"
-            coCell.lblName.text = "123"
+            coCell.imageView.image = UIImage(data: nearData[indexPath.row].img!)
+            coCell.lblDistance.text = "\(String(format:"%f", nearDin[indexPath.row])) km"
+            coCell.lblName.text = nearData[indexPath.row].name
             
             return coCell
         }else{
             let coCell = moreCv.dequeueReusableCell(withReuseIdentifier: morecollectionIdentifier, for: indexPath) as! VerticalCollectionViewCell
             coCell.imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width-40, height: 200)
             coCell.lblName.frame = CGRect(x: 0, y: 210, width: self.view.frame.width-40, height: 20)
-            coCell.lblName.text = "2"
+            coCell.lblName.text = rsDatas[indexPath.row].name
+            coCell.imageView.image = UIImage(data: rsDatas[indexPath.row].img!)
             
             return coCell
         }
     }
     
+    
+}
+
+extension MainVC : CLLocationManagerDelegate
+{
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR")
+        if (error as NSError).code == CLError.locationUnknown.rawValue {
+            return
+        }
+        lastLocationError = error
+        stopLocationManager()
+        
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.last!
+        //print(location!.coordinate.latitude)
+        //print(location!.coordinate.longitude)
+        checkData(rss:rsDatas)
+        stopLocationManager()
+        
+    }
     
 }
