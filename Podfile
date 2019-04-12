@@ -11,5 +11,6 @@ target 'ios-restaurant' do
   pod 'Onboard'
   pod 'ImageSlideshow', '~> 1.6'
   pod 'IQKeyboardManagerSwift'
+  pod 'Parchment'
   
 end
