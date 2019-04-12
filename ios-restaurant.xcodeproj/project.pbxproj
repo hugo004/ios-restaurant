@@ -35,6 +35,8 @@
 		C436154C2259848F00CAD923 /* HorizontalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C436154B2259848F00CAD923 /* HorizontalCollectionViewCell.swift */; };
 		C4B90BD32254CC52007E2642 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B90BD22254CC52007E2642 /* MainVC.swift */; };
 		C4EA0FD4225B137700173297 /* VerticalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0FD3225B137700173297 /* VerticalCollectionViewCell.swift */; };
+		DE4C51FF22609FE600720A4A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4C51F922609FE600720A4A /* LoginVC.swift */; };
+		DE4C52022260A01200720A4A /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4C52012260A01200720A4A /* LocalAuthentication.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +75,8 @@
 		C4B90BD22254CC52007E2642 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		C4EA0FD3225B137700173297 /* VerticalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCollectionViewCell.swift; sourceTree = "<group>"; };
 		D3F4A9D4C94E13E08157DDC9 /* Pods_ios_restaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_restaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE4C51F922609FE600720A4A /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		DE4C52012260A01200720A4A /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE4C52022260A01200720A4A /* LocalAuthentication.framework in Frameworks */,
 				A51E234068B1F6089FC71D81 /* Pods_ios_restaurant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +206,7 @@
 		9A715B6A224E5C220047F15C /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				DE4C51F722609FE600720A4A /* VCs */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -272,9 +278,19 @@
 		D982D44F9729EECA79148B50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DE4C52012260A01200720A4A /* LocalAuthentication.framework */,
 				D3F4A9D4C94E13E08157DDC9 /* Pods_ios_restaurant.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DE4C51F722609FE600720A4A /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				DE4C51F922609FE600720A4A /* LoginVC.swift */,
+			);
+			name = VCs;
+			path = "../../../../ios-restaurant-develop1/ios-restaurant/Helpers/Modules/Login/VCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,6 +426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A2C10B6225B6B2A008EC78A /* MenuItem.swift in Sources */,
+				DE4C51FF22609FE600720A4A /* LoginVC.swift in Sources */,
 				9A2A95DB2258DFCE00D4BA49 /* LanguageVC.swift in Sources */,
 				9A2C10B8225B6B2A008EC78A /* RestaurantInfoView.swift in Sources */,
 				9A2A95DE2258FC2B00D4BA49 /* FoodOrderVC.swift in Sources */,
@@ -594,7 +611,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3LYNAY552L;
 				DEVELOPMENT_TEAM = 3U7NJDGYR6;
 				INFOPLIST_FILE = "ios-restaurant/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -614,7 +630,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3LYNAY552L;
 				DEVELOPMENT_TEAM = 3U7NJDGYR6;
 				INFOPLIST_FILE = "ios-restaurant/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
