@@ -53,3 +53,12 @@
 "food_update" = "Update";
 "food_added" = "Food added successfully";
 "food_updated" = "Food updated successfully";
+
+//renee
+"r_contact_no" = "Contact No.:";
+"r_title" = "Contact Information: ";
+"r_map_btn" = "View by Google Map";
+"r_address" = "Address: ";
+"r_address1" = "11/F, Crowne Plaza\n Hong Kong Causeway Bay, \n8 Leighton Road, \nCauseway Bay";
+
+"ec_desc" = "Tea Rest v0.1";

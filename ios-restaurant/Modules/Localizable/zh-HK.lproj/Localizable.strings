@@ -50,3 +50,12 @@
 "food_update" = "更新";
 "food_added" = "食物添加成功";
 "food_updated" = "食物更新成功";
+
+//renee
+"r_contact_no" = "聯繫電話.:";
+"r_title" = "聯繫信息: ";
+"r_map_btn" = "按Google地圖查看";
+"r_address" = "地址： ";
+"r_address1" = "香港銅鑼灣皇冠假日酒店11樓，銅鑼灣禮頓道\n8號";
+
+"ec_desc" = "Tea Rest v0.1";
