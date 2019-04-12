@@ -29,7 +29,7 @@ class MapViewController: UIViewController {
     }
     */
     func initView() -> Void {
-        mapview = RestaurantMap.init(frame: CGRect(x: 0, y: 20, width: self.view.frame.size.width, height: 700))
+        mapview = RestaurantMap.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 700))
         self.view.addSubview(mapview)
     }
 

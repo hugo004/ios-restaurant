@@ -70,16 +70,40 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         return v
     }()
     private let pagingViewController = CustomPagingViewController()
-
+    
+    
+    let mapBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 50, height: 50))
+        //        btn.font = .systemFont(ofSize: 14, weight: .bold)
+//        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
+        btn.setImage(UIImage(named: "map-icon"), for: .normal)
+        btn.setTitleColor(UIColor.blue, for: .normal)
+        
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
         self.view.backgroundColor = UIColor.white;
+        
+        
        
         initView()
         
+        
+        
+        self.view.addSubview(mapBtn);
+        mapBtn.snp.makeConstraints { (make) in
+            make.bottom.right.equalTo(self.view.safeAreaLayoutGuide).offset(-20);
+            make.size.equalTo(CGSize(width: 50, height: 50));
+        }
+        
+        mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
+            let vc = MapViewController();
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
     }
     
 
