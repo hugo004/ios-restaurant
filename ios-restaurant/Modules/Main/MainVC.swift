@@ -327,7 +327,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
             let coCell = addAddCv.dequeueReusableCell(withReuseIdentifier: addcollectionIdentifier, for: indexPath) as! HorizontalCollectionViewCell
             coCell.imageView.image = UIImage(data: newData[indexPath.row].img!)
             coCell.lblName.text = newData[indexPath.row].name
-            
             return coCell
         }else if collectionView == self.nearByCv{
             let coCell = nearByCv.dequeueReusableCell(withReuseIdentifier: nearcollectionIdentifier, for: indexPath) as! HorizontalCollectionViewCell
@@ -346,8 +345,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
             return coCell
         }
     }
-    
-    
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("clicked collection")
+        let vc = RestaurantMenu()
+        vc.restaurant = rsDatas[indexPath.row]
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension MainVC : CLLocationManagerDelegate

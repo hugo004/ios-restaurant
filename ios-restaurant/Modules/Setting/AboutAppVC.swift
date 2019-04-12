@@ -15,12 +15,18 @@ class AboutAppVC: UIViewController {
         
         self.view.backgroundColor = UIColor.white;
         // Do any additional setup after loading the view.
-        let lbl = UILabel(frame: CGRect(x: 0, y: 20, width: self.view.bounds.width, height: 300));
+        
+        let img = UIImageView(frame: CGRect(x: self.view.bounds.width / 2 - 45.3, y: self.view.bounds.height / 2 - 200, width: 87, height: 87))
+        img.image = UIImage(named: "Icon-87")
+//        img.backgroundColor = UIColor.yellow
+        let lbl = UILabel(frame: CGRect(x: 0, y:  self.view.bounds.height / 2 - 80, width: self.view.bounds.width, height: 60));
         lbl.text = Helper.Localized(key: "ec_desc");
         lbl.backgroundColor = UIColor.white
         lbl.numberOfLines = 0
         lbl.lineBreakMode = .byWordWrapping
         lbl.textAlignment = .center
+        
+        self.view.addSubview(img)
         self.view.addSubview(lbl)
         
     }

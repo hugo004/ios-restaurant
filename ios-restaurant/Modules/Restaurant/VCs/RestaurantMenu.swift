@@ -60,6 +60,9 @@ class CustomPagingViewController: PagingViewController<PagingIndexItem> {
     }
 }
 class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
+    var restaurant:Restaurant?
+    
+    
     let screenSize: CGRect = UIScreen.main.bounds
 //    var riv: RestaurantInfoView!
     var img: UIImageView!
@@ -87,8 +90,7 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
 
 
         self.view.backgroundColor = UIColor.white;
-        
-        
+        print(restaurant)
        
         initView()
         
@@ -101,7 +103,7 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         }
         
         mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
-            let vc = MapViewController();
+            let vc = MapViewController()
             self.navigationController?.pushViewController(vc, animated: false)
         }
     }
