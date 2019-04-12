@@ -24,7 +24,7 @@ class HomeVC: UITabBarController {
     }()
         
     var Terry: UIViewController = {
-        let vc = UIViewController()
+        let vc = LoginVC()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Terry"), image: UIImage(named:"icon-document"), tag: 1)
         
         return vc
