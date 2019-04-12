@@ -9,7 +9,9 @@
 import UIKit
 import SnapKit
 
-
+protocol MapViewDelegate {
+    func callMapView()
+}
 
 class RestaurantInfoView: UIView {
     let screenSize: CGRect = UIScreen.main.bounds
@@ -46,6 +48,7 @@ class RestaurantInfoView: UIView {
         btn.backgroundColor = UIColor.yellow
         
         btn.setTitleColor(UIColor.blue, for: .normal)
+        
        return btn
     }()
     
@@ -105,13 +108,13 @@ class RestaurantInfoView: UIView {
         return view
     }()
     
-    let nav: UINavigationController = {
-       let nav = UINavigationController()
-        nav.title = "Mr. Wong Coffie"
-        return nav
-    }()
     
     
+//    @objc func callMapView() {
+//                let mapv = MapViewController()
+//                print("clicked btn")
+//                self.navigationController?.pushViewController(mapv, animated: true)
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,12 +130,49 @@ class RestaurantInfoView: UIView {
 //        addressLbl1.translatesAutoresizingMaskIntoConstraints = false
 //        phoneLbl2.translatesAutoresizingMaskIntoConstraints = false
 //        addressLbl2.translatesAutoresizingMaskIntoConstraints = false
-
+//        let horizontalConstraint = NSLayoutConstraint(item: phoneLbl1, attribute: .centerX, relatedBy: .equal, toItem: uiv, attribute: .centerX, multiplier: 1, constant: 0)
+//        let verticalConstraint = NSLayoutConstraint(item: phoneLbl1, attribute: .centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: uiv, attribute: .centerY, multiplier: 1, constant: 0)
+//        uiv.addConstraint(horizontalConstraint)
+//        uiv.addConstraint(verticalConstraint)
+//        uiv.addConstraints([horizontalConstraint, verticalConstraint])
+//        NSLayoutConstraint.activate([phoneLbl1.centerXAnchor.constraint(equalTo: uiv.centerXAnchor)])
+//        NSLayoutConstraint.activate([phoneLbl1.centerYAnchor.constraint(equalTo: uiv.centerYAnchor)])
+//        NSLayoutConstraint.activate([phoneLbl1.widthAnchor.constraint(equalToConstant: 200)])
+//        NSLayoutConstraint.activate([phoneLbl1.heightAnchor.constraint(equalToConstant: 100)])
         
         
 //        uiv.addSubview(addressLbl1)
 
-
+        
+//        phoneLbl1.snp.makeConstraints { (make) in
+////            make.left.equalTo(self).offset(0)
+////            make.top.equalTo(self.coverImgView).offset(0)
+////            make.right.equalTo(self).offset(0)
+//            make.height.equalTo(70)
+//            make.width.equalTo(140)
+//        }
+//        addressLbl1.snp.makeConstraints { (make) in
+//            make.left.equalTo(superview!).offset(0)
+////            make.top.equalTo(phoneLbl1.snp_bottom).offset(12)
+//            make.right.equalTo(superview!).offset(0)
+//            make.height.equalTo(70)
+//            make.width.equalTo(140)
+//        }
+//        phoneLbl2.snp.makeConstraints { (make) in
+//            make.left.equalTo(superview!).offset(24)
+//            make.top.equalTo(superview!).offset(0)
+//            make.right.equalTo(superview!).offset(0)
+//            make.height.equalTo(70)
+//            make.width.equalTo(140)
+//        }
+//        addressLbl2.snp.makeConstraints { (make) in
+//            make.left.equalTo(superview!).offset(24)
+//            make.top.equalTo(superview!).offset(12)
+//            make.right.equalTo(superview!).offset(0)
+//            make.height.equalTo(70)
+//            make.width.equalTo(140)
+//        }
+        
         // end of uiv
         coverImgView.frame = CGRect(x: 0, y: 0, width:  screenSize.width, height: 200)
         self.addSubview(coverImgView)
