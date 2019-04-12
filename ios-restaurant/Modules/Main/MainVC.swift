@@ -40,11 +40,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     
     func initView() -> Void {
         self.view.backgroundColor = UIColor.white
-        let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
         
-        tv = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight),style: .grouped)
+        
+        tv = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight),style: .grouped)
         tv.register(MainTableViewCell.self, forCellReuseIdentifier: identifier)
         tv.dataSource = self
         tv.delegate = self
@@ -52,6 +52,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         tv.allowsSelection = false
         
         self.view.addSubview(tv)
+        
+        tv.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide);
+        }
     }
     
     func imageSlideView(images:[ImageSource]) -> UIView {
