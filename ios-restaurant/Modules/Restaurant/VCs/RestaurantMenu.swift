@@ -8,25 +8,20 @@
 
 import UIKit
 import Parchment
-import ReactiveCocoa
 
 class RestaurantCustView: PagingView {
     var headerHeightConstraint: NSLayoutConstraint?
     var riv: RestaurantInfoView!
     
-//    var pageView: PagingView!;
     static let HeaderHeight: CGFloat = 500
-    
     
 
     
     override func setupConstraints() {
         
-    
-//        riv.mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
-//            let mapv = MapViewController()
-//            self.navigationController?.pushViewController(mapv, animated: true)
-//        }
+        riv = RestaurantInfoView(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 50))
+        riv.sizeToFit()
+        addSubview(riv)
         pageView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         riv.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +57,6 @@ class CustomPagingViewController: PagingViewController<PagingIndexItem> {
             collectionView: collectionView,
             pageView: pageViewController.view
         )
-
     }
 }
 class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
@@ -75,16 +69,15 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         v.backgroundColor = UIColor.white
         return v
     }()
-    var riv: RestaurantInfoView!
-
     private let pagingViewController = CustomPagingViewController()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
 
+        self.view.backgroundColor = UIColor.white;
+       
         initView()
         
     }
@@ -118,21 +111,6 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
 //        }
 
 //        scrollView.addSubview(riv)
-        
-        
-        
-
-        
-        self.view.backgroundColor = UIColor.white;
-        
-        riv = RestaurantInfoView(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 50))
-        riv.sizeToFit()
-        self.view.addSubview(riv)
-//                self.view.riv.mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
-//            let mapv = MapViewController()
-//            self.navigationController?.pushViewController(mapv, animated: true)
-//        }
-        
         addChild(pagingViewController)
 //        scrollView.addSubview(pagingViewController.view)
 //        scrollView.constrainToEdges(pagingViewController.view)
@@ -140,8 +118,6 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         view.constrainToEdges(pagingViewController.view)
         pagingViewController.didMove(toParent: self)
         pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        
-       
         
         // Customize the menu styling.
         pagingViewController.selectedTextColor = .black
