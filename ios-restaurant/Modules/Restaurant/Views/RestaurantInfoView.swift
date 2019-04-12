@@ -41,16 +41,16 @@ class RestaurantInfoView: UIView {
     }()
 
     
-    let mapBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 250, height: 40))
-//        btn.font = .systemFont(ofSize: 14, weight: .bold)
-        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
-        btn.backgroundColor = UIColor.yellow
-        
-        btn.setTitleColor(UIColor.blue, for: .normal)
-        
-       return btn
-    }()
+//    let mapBtn: UIButton = {
+//        let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 250, height: 40))
+////        btn.font = .systemFont(ofSize: 14, weight: .bold)
+//        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
+//        btn.backgroundColor = UIColor.yellow
+//
+//        btn.setTitleColor(UIColor.blue, for: .normal)
+//
+//       return btn
+//    }()
     
     let cat: UILabel = {
         let lbl = UILabel()
@@ -125,7 +125,7 @@ class RestaurantInfoView: UIView {
         uiv.addSubview(addressLbl1)
         uiv.addSubview(phoneLbl2)
         uiv.addSubview(addressLbl2)
-        uiv.addSubview(mapBtn)
+//        uiv.addSubview(mapBtn)
 //        phoneLbl1.translatesAutoresizingMaskIntoConstraints = false
 //        addressLbl1.translatesAutoresizingMaskIntoConstraints = false
 //        phoneLbl2.translatesAutoresizingMaskIntoConstraints = false
