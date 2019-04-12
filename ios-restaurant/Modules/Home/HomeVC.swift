@@ -18,7 +18,7 @@ class HomeVC: UITabBarController {
     }()
     
     let Sam: UIViewController = {
-        let vc = MainVC()
+        let vc = SearchVC()
         vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Sam") , image: UIImage(named:"icon-settings-white"), tag: 1)
         return vc
     }()
