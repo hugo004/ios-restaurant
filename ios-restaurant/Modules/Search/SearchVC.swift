@@ -23,7 +23,7 @@ class SearchVC: UIViewController {
     func initView() -> Void {
         let displayWidth: CGFloat = self.view.frame.width
         
-        locationTxt = UITextField(frame: CGRect(x: 0, y: 0, width: displayWidth, height: 50))
+        locationTxt = UITextField(frame: CGRect(x: 5, y: 0, width: displayWidth-10, height: 50))
         locationTxt.layer.borderWidth = 1
         locationTxt.layer.borderColor = UIColor.black.cgColor
         locationTxt.leftViewMode = .always
