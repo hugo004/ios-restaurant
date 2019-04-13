@@ -158,7 +158,6 @@
 			children = (
 				9A2FD20D2260BED000234FEB /* UIView+constraints.swift */,
 				9A2FD20E2260BED000234FEB /* MenuItem.swift */,
-				9A2FD20F2260BED000234FEB /* Food.swift */,
 				9A2FD2102260BED000234FEB /* RestaurantMap.swift */,
 				9A2FD2112260BED000234FEB /* RestaurantInfoView.swift */,
 			);
@@ -178,6 +177,7 @@
 		9A2FD2162260BED000234FEB /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				9A2FD20F2260BED000234FEB /* Food.swift */,
 				9A2FD2172260BED000234FEB /* MenuCategory.swift */,
 				9A2FD2182260BED000234FEB /* Restaurant.swift */,
 			);

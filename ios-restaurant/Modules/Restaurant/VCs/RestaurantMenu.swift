@@ -9,43 +9,96 @@
 import UIKit
 import Parchment
 
+
+class CoverImageView: UIView {
+    let coverImgView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.contentMode = .scaleAspectFill
+        imgView.image = UIImage(named: "restaurant-1")
+        //        imgView.frame = CGRect(x: 0, y: 0, width:  self.view.frame.width, height: 200)
+        return imgView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addSubview(coverImgView)
+        initView();
+        
+        
+    }
+    convenience init() {
+        self.init(frame: CGRect.zero);
+        initView();
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func initView() -> Void {
+        coverImgView.frame = CGRect(x: 0, y: 64, width:  UIScreen.main.bounds.width, height: 0)
+        self.addSubview(coverImgView)
+        
+    }
+}
+
+
 class RestaurantCustView: PagingView {
     var headerHeightConstraint: NSLayoutConstraint?
-    var riv: RestaurantInfoView!
+    var coverImage: CoverImageView!
     
-    static let HeaderHeight: CGFloat = 500
+    static let HeaderHeight: CGFloat = 250
     
 
     
     override func setupConstraints() {
         
-        riv = RestaurantInfoView(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 50))
-        riv.sizeToFit()
-        addSubview(riv)
+//        coverImage = CoverImageView(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 50))
+        coverImage = CoverImageView()
+        coverImage.sizeToFit()
+        addSubview(coverImage)
         pageView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        riv.translatesAutoresizingMaskIntoConstraints = false
+        coverImage.translatesAutoresizingMaskIntoConstraints = false
         
-        headerHeightConstraint = riv.heightAnchor.constraint(
+        headerHeightConstraint = coverImage.heightAnchor.constraint(
             equalToConstant: RestaurantCustView.HeaderHeight
         )
         headerHeightConstraint?.isActive = true
         
+        coverImage.snp.makeConstraints{ (make) in
+            make.leading.equalTo(0);
+//            make.left.equalTo(0);
+//            make.right.equalTo(0);
+//            make.height.equalTo(superview!).offset(200);
+        }
+        
+//        collectionView.snp.makeConstraints{ (make) in
+//            make.leading.equalTo(0);
+//            make.bottom.equalTo(0);
+//            make.left.equalTo(0);
+//            make.right.equalTo(0);
+//        }
+//
+//        pageView.snp.makeConstraints{ (make) in
+//            make.leading.equalTo(self).offset(0);
+//            make.bottom.equalTo(0);
+//            make.left.equalTo(0);
+//            make.right.equalTo(0);
+//        }
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: options.menuHeight),
-            collectionView.topAnchor.constraint(equalTo: riv.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: coverImage.bottomAnchor),
             
-            riv.topAnchor.constraint(equalTo: topAnchor),
-            riv.leadingAnchor.constraint(equalTo: leadingAnchor),
-            riv.trailingAnchor.constraint(equalTo: trailingAnchor),
+            coverImage.topAnchor.constraint(equalTo: topAnchor),
+            coverImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            coverImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             pageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             pageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageView.topAnchor.constraint(equalTo: topAnchor)
-            ])
+        ])
     }
 }
 
@@ -90,8 +143,9 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
 
 
         self.view.backgroundColor = UIColor.white;
-        print(restaurant)
-       
+        pagingViewController.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        pagingViewController.selectedFont = UIFont.systemFont(ofSize: 25, weight: UIFont.Weight.medium)
+        pagingViewController.selectedTextColor = UIColor.blue
         initView()
         
         
@@ -192,7 +246,6 @@ extension RestaurantMenu: PagingViewControllerDataSource {
         viewController.tableView.contentInset = insets
         viewController.tableView.scrollIndicatorInsets = insets
         viewController.tableView.delegate = self
-        
         return viewController
     }
     

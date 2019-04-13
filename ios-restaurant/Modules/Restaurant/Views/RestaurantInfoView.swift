@@ -32,13 +32,13 @@ class RestaurantInfoView: UIView {
         lbl.lineBreakMode = NSLineBreakMode.byWordWrapping
         return lbl
     }()
-    let coverImgView: UIImageView = {
-        let imgView = UIImageView()
-        imgView.contentMode = .scaleAspectFill
-        imgView.image = UIImage(named: "restaurant-1")
-//        imgView.frame = CGRect(x: 0, y: 0, width:  self.view.frame.width, height: 200)
-        return imgView
-    }()
+//    let coverImgView: UIImageView = {
+//        let imgView = UIImageView()
+//        imgView.contentMode = .scaleAspectFill
+//        imgView.image = UIImage(named: "restaurant-1")
+////        imgView.frame = CGRect(x: 0, y: 0, width:  self.view.frame.width, height: 200)
+//        return imgView
+//    }()
 
     
 //    let mapBtn: UIButton = {
@@ -52,14 +52,6 @@ class RestaurantInfoView: UIView {
 //       return btn
 //    }()
     
-    let cat: UILabel = {
-        let lbl = UILabel()
-        lbl.textColor = UIColor.black
-        lbl.font = .systemFont(ofSize: 38, weight: .bold)
-        lbl.numberOfLines = 0
-        lbl.lineBreakMode = NSLineBreakMode.byWordWrapping
-        return lbl
-    }()
     
     let phoneLbl1: UILabel = {
         let lbl = UILabel(frame: CGRect(x: 20, y: 80, width: 140, height: 70))
@@ -99,7 +91,7 @@ class RestaurantInfoView: UIView {
     }()
     
     let uiv: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 200, width: 500, height: 300))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 300))
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
         view.backgroundColor = UIColor.init(red: 229, green: 227, blue: 227, alpha: 1.0)
@@ -174,8 +166,8 @@ class RestaurantInfoView: UIView {
 //        }
         
         // end of uiv
-        coverImgView.frame = CGRect(x: 0, y: 0, width:  screenSize.width, height: 200)
-        self.addSubview(coverImgView)
+//        coverImgView.frame = CGRect(x: 0, y: 0, width:  screenSize.width, height: 200)
+//        self.addSubview(coverImgView)
         self.addSubview(uiv)
         
         
