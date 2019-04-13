@@ -93,41 +93,9 @@ class RestaurantInfoView: UIView {
         uiv.addSubview(phoneLbl2)
         uiv.addSubview(addressLbl2)
 
-//        phoneLbl1.translatesAutoresizingMaskIntoConstraints = false
-//        addressLbl1.translatesAutoresizingMaskIntoConstraints = false
-//        phoneLbl2.translatesAutoresizingMaskIntoConstraints = false
-//        addressLbl2.translatesAutoresizingMaskIntoConstraints = false
-//
+
         
-        
-//        phoneLbl1.snp.makeConstraints { (make) in
-////            make.left.equalTo(self).offset(0)
-////            make.top.equalTo(self.coverImgView).offset(0)
-////            make.right.equalTo(self).offset(0)
-//            make.height.equalTo(70)
-//            make.width.equalTo(140)
-//        }
-//        addressLbl1.snp.makeConstraints { (make) in
-//            make.left.equalTo(superview!).offset(0)
-////            make.top.equalTo(phoneLbl1.snp_bottom).offset(12)
-//            make.right.equalTo(superview!).offset(0)
-//            make.height.equalTo(70)
-//            make.width.equalTo(140)
-//        }
-//        phoneLbl2.snp.makeConstraints { (make) in
-//            make.left.equalTo(superview!).offset(24)
-//            make.top.equalTo(superview!).offset(0)
-//            make.right.equalTo(superview!).offset(0)
-//            make.height.equalTo(70)
-//            make.width.equalTo(140)
-//        }
-//        addressLbl2.snp.makeConstraints { (make) in
-//            make.left.equalTo(superview!).offset(24)
-//            make.top.equalTo(superview!).offset(12)
-//            make.right.equalTo(superview!).offset(0)
-//            make.height.equalTo(70)
-//            make.width.equalTo(140)
-//        }
+
         
         // end of uiv
 
