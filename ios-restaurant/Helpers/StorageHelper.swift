@@ -15,6 +15,7 @@ enum FoodType: String {
     case Noodle = "Noodle"
     case Desert = "Dessert"
     case Category = "Category"
+    case Recommand = "Recommand"
 
 }
 
@@ -123,13 +124,41 @@ class StorageHelper {
         var array: [Food] = [];
         
         for i in 1 ... size {
+            let randomPice = Int.random(in: 50 ..< 150);
             array.append(Food(name: "\(category.rawValue)-\(i)",
-                price: price,
+                price: randomPice,
                 image: UIImage(named: "\(prefix)-\(i)")!,
                 type: category));
         }
         
         saveFoods(data: array, type: category);
+        
+    }
+    
+    static func initRecommandList() {
+        let names = [
+        "泡菜忌廉雞肉意粉",
+        "炸漢堡薯條",
+        "脆焗熱狗",
+        "雞球炒意粉",
+        "涼拌意粉",
+        "涼拌刀削面",
+        "鮮蝦炒飯",
+        "芝士焗肉醬意粉"
+        ];
+        
+        var array: [Food] = [];
+        let prefix = FoodType.Recommand.rawValue.lowercased();
+        
+        for i in 1 ..< names.count {
+            let randomPice = Int.random(in: 50 ..< 150);
+            array.append(Food(name: names[i],
+                price: randomPice,
+                image: UIImage(named: "\(prefix)-\(i)")!,
+                type: FoodType.Recommand));
+        }
+        
+        saveFoods(data: array, type: .Recommand);
         
     }
     
@@ -165,6 +194,7 @@ class StorageHelper {
         UserDefaults.standard.setValue(encoded, forKey: FoodType.Category.rawValue);
         UserDefaults.standard.synchronize();
         
+        initRecommandList();
     }
     
     static func getFoodCategetory() -> [FoodCategory] {

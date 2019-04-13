@@ -103,8 +103,8 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         }
         
         mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
-            let vc = MapViewController()
-            self.navigationController?.pushViewController(vc, animated: false)
+//            let vc = MapViewController()
+//            self.navigationController?.pushViewController(vc, animated: false)
         }
     }
     

@@ -348,9 +348,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("clicked collection")
-        let vc = RestaurantMenu()
-        vc.restaurant = rsDatas[indexPath.row]
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = RestaurantMenu()
+//        vc.restaurant = rsDatas[indexPath.row]
+//        self.navigationController?.pushViewController(vc, animated: true)
+        let restaurantInfo = rsDatas[indexPath.row];
+        self.navigationController?.pushViewController(FoodListVC(restaurant: restaurantInfo), animated: true);
     }
 }
 

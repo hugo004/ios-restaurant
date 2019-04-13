@@ -59,3 +59,7 @@
 "r_address1" = "香港銅鑼灣皇冠假日酒店11樓，銅鑼灣禮頓道\n8號";
 
 "ec_desc" = "Tea Rest v0.1";
+
+//role
+"role_guest" = "遊客";
+"role_staff" = "員工";

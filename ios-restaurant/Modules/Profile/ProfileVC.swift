@@ -27,6 +27,8 @@ private class ProfileModel {
      var dataSource: [DataSource] = [
         DataSource(icon: UIImage(named: "icon-setting"), name: Helper.Localized(key: "home_setting"))
     ];
+    
+    var userInfo: UserInfo = StorageHelper.getUserInfo();
 
     
     
@@ -71,16 +73,26 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView(frame: tableView.frame);
         
-        let userInfo = StorageHelper.getUserInfo();
-        let image = UIImage(data: userInfo.icon ?? Data()) ?? UIImage(named: "icon-profile-avatar");
-        let icon = UIImageView(image: image);
+        var isLogined = false;
+
+        let icon = UIImageView(image: UIImage(named: "icon-profile-avatar"));
         icon.clipsToBounds = true;
         icon.layer.borderWidth = 1;
         icon.layer.cornerRadius = 50 / 2 ;
         icon.layer.borderColor = UIColor.lightGray.cgColor;
         
         let role = UILabel();
-        role.text = "\(userInfo.name) (\(userInfo.role))";
+        
+        if model.userInfo.icon != nil {
+            icon.image = UIImage(data: model.userInfo.icon!);
+        }
+        
+        if model.userInfo.name != "" {
+            role.text = "\(model.userInfo.name) (\(model.userInfo.role))";
+            isLogined = true;
+        } else {
+            role.text = "(\(Helper.Localized(key: "role_guest")))";
+        }
         
         header.addSubview(icon);
         header.addSubview(role);
@@ -101,7 +113,11 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         header.addSubview(button);
         
         button.reactive.controlEvents(.touchUpInside).observe { _ in
-            self.navigationController?.pushViewController(ProfileEditVC(), animated: true);
+            if isLogined {
+                self.navigationController?.pushViewController(ProfileEditVC(), animated: true);
+            } else {
+                self.navigationController?.present(LoginVC(), animated: true, completion: nil);
+            }
         }
         
         return header;
@@ -113,7 +129,7 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier);
         if cell == nil {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: identifier);
+            cell = UITableViewCell(style: .default, reuseIdentifier: identifier);
             cell?.selectionStyle = .none;
         }
         

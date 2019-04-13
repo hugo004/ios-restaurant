@@ -22,7 +22,6 @@
 "home_profile" = "Profile";
 
 
-
 //setting
 "setting_aboutapp" = "About App";
 "setting_language" = "Langauge";
@@ -62,3 +61,20 @@
 "r_address1" = "11/F, Crowne Plaza\n Hong Kong Causeway Bay, \n8 Leighton Road, \nCauseway Bay";
 
 "ec_desc" = "Tea Rest v0.1";
+
+//role
+"role_guest" = "Guest";
+"role_staff" = "Staff";
+
+//login
+"login_username" = "User name";
+"login_password" = "Password";
+"login_login" = "Login";
+"login_reset" = "Rest";
+"login_cancel" = "Cancel";
+
+//restaurant
+"restaurant_category" = "Category";
+"restaurant_recommand" = "Recommand";
+"restaurant_phone" = "Tel";
+"restaurant_address" = "Address";

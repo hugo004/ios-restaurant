@@ -10,40 +10,20 @@ import UIKit
 
 class HomeVC: UITabBarController {
     
-    let Hugo: FoodListVC = {
-        let vc = FoodListVC()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Hugo"), image: UIImage(named:"icon-calendar-blue"), tag: 0)
-        
-        return vc
-    }()
-    
-    let Sam: UIViewController = {
+    let home: UIViewController = {
         let vc = MainVC()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Sam") , image: UIImage(named:"icon-settings-white"), tag: 1)
-        return vc
-    }()
-        
-    var Terry: UIViewController = {
-        let vc = LoginVC()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Terry"), image: UIImage(named:"icon-document"), tag: 1)
-        
+        vc.tabBarItem = UITabBarItem(title: nil , image: UIImage(named:"icon-home"), tag: 1)
         return vc
     }()
     
-    var Renee: UIViewController = {
-        let vc = RestaurantMenu()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "Renee"), image: UIImage(named:"icon-document"), tag: 1)
-        
-        return vc
-    }()
     
     let profile: ProfileVC = {
         let vc = ProfileVC()
-        vc.tabBarItem = UITabBarItem(title: Helper.Localized(key: "home_profile") , image: UIImage(named:"icon-profile"), tag: 1)
+        vc.tabBarItem = UITabBarItem(title: nil , image: UIImage(named:"icon-setting"), tag: 1)
         
         return vc
     }()
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +38,7 @@ class HomeVC: UITabBarController {
         self.view.backgroundColor = .white;
         //        self.extendedLayoutIncludesOpaqueBars = true;
         
-        self.viewControllers = [Sam, Renee, Hugo, Terry, profile];
+        self.viewControllers = [home, profile];
         self.tabBar.barTintColor = UIColor.white
         self.tabBar.backgroundColor = UIColor.white;
         
