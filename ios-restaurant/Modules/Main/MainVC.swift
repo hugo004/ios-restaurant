@@ -347,7 +347,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("clicked collection")
         let vc = MapViewController()
         vc.restaurant = rsDatas[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)

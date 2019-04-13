@@ -32,26 +32,7 @@ class RestaurantInfoView: UIView {
         lbl.lineBreakMode = NSLineBreakMode.byWordWrapping
         return lbl
     }()
-//    let coverImgView: UIImageView = {
-//        let imgView = UIImageView()
-//        imgView.contentMode = .scaleAspectFill
-//        imgView.image = UIImage(named: "restaurant-1")
-////        imgView.frame = CGRect(x: 0, y: 0, width:  self.view.frame.width, height: 200)
-//        return imgView
-//    }()
 
-    
-//    let mapBtn: UIButton = {
-//        let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 250, height: 40))
-////        btn.font = .systemFont(ofSize: 14, weight: .bold)
-//        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
-//        btn.backgroundColor = UIColor.yellow
-//
-//        btn.setTitleColor(UIColor.blue, for: .normal)
-//
-//       return btn
-//    }()
-    
     
     let phoneLbl1: UILabel = {
         let lbl = UILabel(frame: CGRect(x: 20, y: 80, width: 140, height: 70))
@@ -100,13 +81,7 @@ class RestaurantInfoView: UIView {
         return view
     }()
     
-    
-    
-//    @objc func callMapView() {
-//                let mapv = MapViewController()
-//                print("clicked btn")
-//                self.navigationController?.pushViewController(mapv, animated: true)
-//    }
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -117,24 +92,13 @@ class RestaurantInfoView: UIView {
         uiv.addSubview(addressLbl1)
         uiv.addSubview(phoneLbl2)
         uiv.addSubview(addressLbl2)
-//        uiv.addSubview(mapBtn)
+
 //        phoneLbl1.translatesAutoresizingMaskIntoConstraints = false
 //        addressLbl1.translatesAutoresizingMaskIntoConstraints = false
 //        phoneLbl2.translatesAutoresizingMaskIntoConstraints = false
 //        addressLbl2.translatesAutoresizingMaskIntoConstraints = false
-//        let horizontalConstraint = NSLayoutConstraint(item: phoneLbl1, attribute: .centerX, relatedBy: .equal, toItem: uiv, attribute: .centerX, multiplier: 1, constant: 0)
-//        let verticalConstraint = NSLayoutConstraint(item: phoneLbl1, attribute: .centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: uiv, attribute: .centerY, multiplier: 1, constant: 0)
-//        uiv.addConstraint(horizontalConstraint)
-//        uiv.addConstraint(verticalConstraint)
-//        uiv.addConstraints([horizontalConstraint, verticalConstraint])
-//        NSLayoutConstraint.activate([phoneLbl1.centerXAnchor.constraint(equalTo: uiv.centerXAnchor)])
-//        NSLayoutConstraint.activate([phoneLbl1.centerYAnchor.constraint(equalTo: uiv.centerYAnchor)])
-//        NSLayoutConstraint.activate([phoneLbl1.widthAnchor.constraint(equalToConstant: 200)])
-//        NSLayoutConstraint.activate([phoneLbl1.heightAnchor.constraint(equalToConstant: 100)])
+//
         
-        
-//        uiv.addSubview(addressLbl1)
-
         
 //        phoneLbl1.snp.makeConstraints { (make) in
 ////            make.left.equalTo(self).offset(0)
@@ -166,8 +130,7 @@ class RestaurantInfoView: UIView {
 //        }
         
         // end of uiv
-//        coverImgView.frame = CGRect(x: 0, y: 0, width:  screenSize.width, height: 200)
-//        self.addSubview(coverImgView)
+
         self.addSubview(uiv)
         
         

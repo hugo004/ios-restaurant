@@ -50,8 +50,7 @@ class RestaurantCustView: PagingView {
 
     
     override func setupConstraints() {
-        
-//        coverImage = CoverImageView(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 50))
+        // add coverimage to view
         coverImage = CoverImageView()
         coverImage.sizeToFit()
         addSubview(coverImage)
@@ -64,26 +63,7 @@ class RestaurantCustView: PagingView {
         )
         headerHeightConstraint?.isActive = true
         
-        coverImage.snp.makeConstraints{ (make) in
-            make.leading.equalTo(0);
-//            make.left.equalTo(0);
-//            make.right.equalTo(0);
-//            make.height.equalTo(superview!).offset(200);
-        }
-        
-//        collectionView.snp.makeConstraints{ (make) in
-//            make.leading.equalTo(0);
-//            make.bottom.equalTo(0);
-//            make.left.equalTo(0);
-//            make.right.equalTo(0);
-//        }
-//
-//        pageView.snp.makeConstraints{ (make) in
-//            make.leading.equalTo(self).offset(0);
-//            make.bottom.equalTo(0);
-//            make.left.equalTo(0);
-//            make.right.equalTo(0);
-//        }
+
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -117,26 +97,10 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
     
     
     let screenSize: CGRect = UIScreen.main.bounds
-//    var riv: RestaurantInfoView!
-    var img: UIImageView!
-    let scrollView: UIScrollView = {
-        let v = UIScrollView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = UIColor.white
-        return v
-    }()
+
     private let pagingViewController = CustomPagingViewController()
     
-    
-    let mapBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 50, height: 50))
-        //        btn.font = .systemFont(ofSize: 14, weight: .bold)
-//        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
-        btn.setImage(UIImage(named: "map-icon"), for: .normal)
-        btn.setTitleColor(UIColor.blue, for: .normal)
-        
-        return btn
-    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,18 +112,7 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
         pagingViewController.selectedTextColor = UIColor.blue
         initView()
         
-        
-        
-        self.view.addSubview(mapBtn);
-        mapBtn.snp.makeConstraints { (make) in
-            make.bottom.right.equalTo(self.view.safeAreaLayoutGuide).offset(-20);
-            make.size.equalTo(CGSize(width: 50, height: 50));
-        }
-        
-        mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
-            let vc = MapViewController()
-            self.navigationController?.pushViewController(vc, animated: false)
-        }
+    
     }
     
 
@@ -174,26 +127,8 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
     */
     func initView() -> Void{
         
-//        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-//
-//        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
-//
-        
-   
-//        riv = RestaurantInfoView(frame: CGRect(x: 0, y: 20, width: self.view.frame.size.width, height: 50))
-//        riv.sizeToFit()
-        
-//        riv.mapBtn.addTarget(self, action: #selector(showMap), for: .touchUpInside)
-//        riv.mapBtn.reactive.controlEvents(UIControl.Event.touchUpInside).observe { _ in
-//            let mapv = MapViewController()
-//            print("clicked btn")
-//            self.navigationController?.pushViewController(mapv, animated: true)
-//        }
 
-//        scrollView.addSubview(riv)
         addChild(pagingViewController)
-//        scrollView.addSubview(pagingViewController.view)
-//        scrollView.constrainToEdges(pagingViewController.view)
         self.view.addSubview(pagingViewController.view)
         view.constrainToEdges(pagingViewController.view)
         pagingViewController.didMove(toParent: self)
@@ -218,11 +153,6 @@ class RestaurantMenu: UIViewController, UINavigationControllerDelegate  {
             pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
-        
-        
-//        self.view.addSubview(scrollView)
-        
-        
         pagingViewController.dataSource = self
         pagingViewController.delegate = self
         

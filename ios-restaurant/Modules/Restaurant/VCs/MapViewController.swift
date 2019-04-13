@@ -15,8 +15,6 @@ class MapViewController: UIViewController {
     var coverImg: CoverImageView!
     let menuBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 20, y: 260, width: 68, height: 68))
-        //        btn.font = .systemFont(ofSize: 14, weight: .bold)
-        //        btn.setTitle(Helper.Localized(key: "r_map_btn"), for: .normal)
         btn.backgroundColor = UIColor.white
         btn.setImage(UIImage(named: "icon-food-menu"), for: .normal)
         btn.setTitleColor(UIColor.blue, for: .normal)
@@ -64,10 +62,6 @@ class MapViewController: UIViewController {
             
         }
 
-        
-        
-        
-        
         mapview = RestaurantMap.init(frame: CGRect(x: 0, y: 300, width: self.view.frame.size.width, height: self.view.frame.size.height - riv.bounds.height))
         self.view.addSubview(riv)
         self.view.addSubview(mapview)
