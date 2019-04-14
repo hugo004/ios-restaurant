@@ -18,7 +18,7 @@ private let nearcollectionIdentifier  = "nearcoCell"
 private let addcollectionIdentifier  = "addcoCell"
 private let morecollectionIdentifier  = "morecoCell"
 
-class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainVC: BaseViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var tv : UITableView!
     var nearByCv : UICollectionView!
@@ -50,7 +50,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         
         
         
-        StorageHelper.initRestaurantData()
         rsDatas = StorageHelper.getRestaurant()
         
         //findLocation()
@@ -59,6 +58,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         initView()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        self.navigationController?.setNavigationBarHidden(true, animated: animated);
+        UIApplication.shared.StatusBar().backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0);
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        self.navigationController?.setNavigationBarHidden(false, animated: animated);
     }
     
     func findLocation() {
@@ -144,11 +154,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         tv.delegate = self
         tv.sectionFooterHeight = 0
         tv.allowsSelection = false
+        tv.bounces = false;
         
         self.view.addSubview(tv)
         
         tv.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide);
+            make.left.right.bottom.equalTo(self.view.safeAreaLayoutGuide);
+            make.top.equalTo(self.view).offset(-45);
         }
     }
     
@@ -157,6 +169,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         let displayWidth: CGFloat = self.view.frame.width
         
         let slideshow = ImageSlideshow()
+        slideshow.contentScaleMode = .scaleToFill;
         slideshow.setImageInputs(images)
         
         let pageIndicator = UIPageControl()
@@ -225,17 +238,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
                 ]))
             cell.backgroundColor = UIColor.black
         }else if indexPath.section == 1 {
-            cell.lblTitle.text = "Restaurant near by you"
+            cell.lblTitle.text = Helper.Localized(key: "restaurant_near");
             cell.addSubview(nearbyCollectionView())
             
         }else if indexPath.section == 2 {
-            cell.lblTitle.text = "New Add"
+            cell.lblTitle.text = Helper.Localized(key: "restaurant_new_join");
             cell.addSubview(newAddCollectionView())
             
         }
             
         else if indexPath.section == 3 {
-            cell.lblTitle.text = "More"
+            cell.lblTitle.text = Helper.Localized(key: "restaurant_more");
             cell.addSubview(moreCollectionView())
         }
         

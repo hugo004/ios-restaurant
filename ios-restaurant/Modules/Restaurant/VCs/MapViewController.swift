@@ -79,6 +79,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initMapView();
+        
+        self.navigationItem.title = Helper.Localized(key: "restaurant_map");
     }
     
     func initMapView() {

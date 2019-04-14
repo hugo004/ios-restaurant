@@ -392,7 +392,11 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
                                          style: .plain,
                                          target: self,
                                          action: #selector(share));
-        self.navigationItem.rightBarButtonItems = [editButton, sharButton];
+        if Helper.isLogined() {
+            self.navigationItem.rightBarButtonItems = [editButton, sharButton];
+        } else {
+            self.navigationItem.rightBarButtonItems = [sharButton];
+        }
         
         //food image select action
         orderView.foodImageButton.reactive.controlEvents(.touchUpInside).observe { _ in
@@ -435,9 +439,8 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
             let type = FoodType(rawValue: self.model.food.type);
             let ingredient = self.orderView.remark.text;
             //rotate the image, image select from gallery or camera will up-side-down
-//            let image = (self.newFoodImage != nil) ? self.newFoodImage?.rotate(radians: .pi) : self.orderView.food.image;
+            let image = (self.newFoodImage != nil) ? self.newFoodImage?.rotate(radians: .pi) : self.orderView.food.image;
 
-            let image = self.newFoodImage?.rotate(radians: .pi);
 
             let newFood = Food(name: name!, price: price!, image: image!, type: type!, status: self.newFoodStatus, ingredient: ingredient);
             
@@ -450,6 +453,7 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
         
     }
+    
     
     func  addFood(newFood: Food) {
         StorageHelper.addFoods(data: newFood);
@@ -465,6 +469,8 @@ class FoodOrderVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSou
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
+        
+        self.navigationItem.title = model.food.name;
         
         if isNewFood {
             orderView.editMode(isEdit: true);

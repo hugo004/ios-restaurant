@@ -103,7 +103,7 @@ class Helper {
     
     static func string2Date(dateString:String) -> Date {
         let df:DateFormatter = DateFormatter();
-        df.dateFormat = "yyyy/MM/dd HH:mm";
+        df.dateFormat = "yyyy-MM-dd";
         return df.date(from: dateString)!;
     }
     
@@ -153,5 +153,13 @@ class Helper {
     static func askPermission() -> Void {
         isCameraPermissionGranted();
         isGalleryPermissionGranted();
+    }
+    
+    static func isLogined() -> Bool {
+        return StorageHelper.getUserInfo().name != "";
+    }
+    
+    static func logout() {
+        StorageHelper.clearUserInfo();
     }
 }

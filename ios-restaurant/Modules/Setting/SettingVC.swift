@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveSwift
 
 struct DataSource {
     var name: String
@@ -33,6 +34,40 @@ enum Rows: Int {
 enum Sections: Int {
     case General = 0
     case Language = 1
+    case Logout = 2
+}
+
+private class ProfileModel {
+    
+    struct DataSource {
+        var icon: UIImage?
+        var name: String
+        
+        
+        init(icon: UIImage?, name: String) {
+            self.icon = icon;
+            self.name = name;
+        }
+        
+    }
+    
+    var dataSource: [DataSource] = [
+        DataSource(icon: UIImage(named: "icon-setting"), name: Helper.Localized(key: "home_setting"))
+    ];
+    
+    var userInfo: UserInfo!;
+    var isLogin = false;
+    
+    func reloadData()  {
+        userInfo = StorageHelper.getUserInfo();
+        
+        if userInfo.name != "" {
+            isLogin = true;
+        } else {
+            isLogin = false;
+        }
+    }
+    
 }
 
 
@@ -57,8 +92,9 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return datas
     }()
     
-
-
+     private var model: ProfileModel = ProfileModel();
+    
+    var dispos: Disposable!
 
     
     override func viewDidLoad() {
@@ -74,9 +110,22 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.white;
         self.navigationController?.navigationBar.isTranslucent = false;
-
         
+        
+        model.reloadData();
+
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        model.reloadData();
+        tableView.reloadData();
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        dispos.dispose();
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -89,6 +138,11 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             return general.count;
         case Sections.Language.rawValue:
             return langauges.count;
+        case Sections.Logout.rawValue:
+            if model.isLogin {
+                return 1;
+            }
+            return 0;
         default:
             return 0;
         }
@@ -101,6 +155,68 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         default:
             return "";
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let header = UIView(frame: tableView.frame);
+            header.backgroundColor = .white;
+            
+            
+            
+            let icon = UIImageView(image: UIImage(named: "icon-profile-avatar"));
+            icon.clipsToBounds = true;
+            icon.layer.borderWidth = 1;
+            icon.layer.cornerRadius = 50 / 2 ;
+            icon.layer.borderColor = UIColor.lightGray.cgColor;
+            
+            let role = UILabel();
+            
+            if model.userInfo.icon != nil {
+                icon.image = UIImage(data: model.userInfo.icon!);
+            }
+            
+            if model.userInfo.name != "" {
+                role.text = "\(model.userInfo.name) (\(model.userInfo.role))";
+            } else {
+                role.text = "(\(Helper.Localized(key: "role_guest")))";
+            }
+            
+            header.addSubview(icon);
+            header.addSubview(role);
+            
+            icon.snp.makeConstraints { (make) in
+                make.top.equalTo(header).offset(15);
+                make.left.equalTo(header).offset(20);
+                make.bottom.equalTo(header).offset(-15);
+                make.size.equalTo(50);
+            }
+            
+            role.snp.makeConstraints { (make) in
+                make.centerY.equalTo(header);
+                make.left.equalTo(icon.snp.right).offset(20);
+            }
+            
+            let button = UIButton(frame: header.frame);
+            header.addSubview(button);
+            
+            
+            
+            dispos = button.reactive.controlEvents(.touchUpInside).observe { _ in
+                if self.model.isLogin {
+                    self.navigationController?.pushViewController(ProfileEditVC(), animated: true);
+                } else {
+                    let login = LoginVC();
+                    self.navigationController?.pushViewController(login, animated: true);
+                }
+                
+                self.dispos.dispose();
+            }
+            
+            return header;
+        }
+        
+        return nil;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -130,6 +246,9 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 cell?.accessoryType = .none;
             }
         }
+        else if indexPath.section == Sections.Logout.rawValue {
+            cell?.textLabel?.text = Helper.Localized(key: "setting_logout");
+        }
         
         
         return cell!
@@ -152,6 +271,12 @@ class SettingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         {
             Helper.changeLanguage(code: langauges[indexPath.row].code);
             self.navigationController?.setViewControllers([HomeVC()], animated: true);
+        }
+        else if indexPath.section == Sections.Logout.rawValue {
+            dispos.dispose();
+            Helper.logout();
+            model.reloadData();
+            tableView.reloadData();
         }
     }
     

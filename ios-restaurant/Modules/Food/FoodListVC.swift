@@ -42,8 +42,8 @@ class RestaurantDetailView: UIView {
         btn.setTitle(Helper.Localized(key: "restaurant_category"), for: .normal);
         btn.layer.borderWidth = 1;
         btn.layer.borderColor = UIColor.lightGray.cgColor;
-        btn.setTitleColor(UIColor(red:0.94, green:0.42, blue:0.14, alpha:1.0), for: .normal);
-        
+        btn.setTitleColor(.black, for: .normal);
+
         return btn;
     }();
     
@@ -53,7 +53,7 @@ class RestaurantDetailView: UIView {
         btn.layer.borderWidth = 1;
         btn.layer.borderColor = UIColor(red:0.94, green:0.42, blue:0.14, alpha:1.0).cgColor;
         btn.layer.borderColor = UIColor.lightGray.cgColor;
-        btn.setTitleColor(.black, for: .normal);
+        btn.setTitleColor(UIColor(red:0.94, green:0.42, blue:0.14, alpha:1.0), for: .normal);
 
         
         return btn;
@@ -101,16 +101,16 @@ class RestaurantDetailView: UIView {
             make.top.equalTo(contact.snp.bottom).offset(10);
         }
         
-        category.snp.makeConstraints { (make) in
+        recommand.snp.makeConstraints { (make) in
             make.top.equalTo(address.snp.bottom).offset(20);
             make.height.equalTo(40);
             make.width.equalTo(self).multipliedBy(0.5);
             make.left.equalTo(self);
         }
         
-        recommand.snp.makeConstraints { (make) in
+        category.snp.makeConstraints { (make) in
             make.right.equalTo(self);
-            make.top.size.equalTo(category);
+            make.top.size.equalTo(recommand);
         }
     }
 }
@@ -199,10 +199,12 @@ class FoodListVC: BaseViewController, UITableViewDelegate, UITableViewDataSource
         mapBtn.reactive.controlEvents(.touchUpInside).observe { _ in
             self.navigationController?.pushViewController(MapViewController(restaurant: self.model.restaurant, userLocation: self.userLocation), animated: true);
         }
+        
+        header.recommand.sendActions(for: .touchUpInside);
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        userLocation = locations.first;
+        userLocation = locations.first ?? CLLocation(latitude: 0, longitude: 0);
     }
     
     func initTableView() -> Void {

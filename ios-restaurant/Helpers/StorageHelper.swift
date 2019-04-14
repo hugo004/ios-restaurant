@@ -97,6 +97,15 @@ struct UserInfo: Codable {
         self.role = role;
     }
     
+    init(name: String) {
+        self.name = name;
+        self.height = 0;
+        self.weight = 0;
+        self.dob = Date();
+        self.icon = nil;
+        self.role = "Staff";
+    }
+    
     init() {
         self.name = "";
         self.height = 0;
@@ -270,6 +279,11 @@ class StorageHelper {
     
     static func updateUserInfo(new: UserInfo) {
         saveUserInfo(data: new);
+    }
+    
+    static func clearUserInfo() {
+        let userDefault = UserDefaults.standard;
+        userDefault.removeObject(forKey: User_Info_Key);
     }
     
     //Restaurant

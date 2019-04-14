@@ -97,6 +97,7 @@ class FoodDetailVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             self.addFood();
         }
         
+        foodButton.isHidden = !Helper.isLogined();
     }
     
     @objc func refresh() {

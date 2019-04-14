@@ -20,13 +20,14 @@
 //home
 "home_setting" = "Setting";
 "home_profile" = "Profile";
+"home_home" = "Home";
 
 
 //setting
 "setting_aboutapp" = "About App";
 "setting_language" = "Langauge";
 "setting_permission" = "Permission";
-
+"setting_logout" = "Logout";
 
 //language
 "language_chinese" = "Chinese";
@@ -38,6 +39,7 @@
 "profile_weight" = "Weight";
 "profile_height" = "Height";
 "profile_edit" = "Edit";
+"profile_update" = "Update";
 
 //food
 "food_share" = "Share";
@@ -78,3 +80,9 @@
 "restaurant_recommand" = "Recommand";
 "restaurant_phone" = "Tel";
 "restaurant_address" = "Address";
+"restaurant_near" = "Restaurant near by you";
+"restaurant_new_join" = "New Add";
+"restaurant_more" = "More";
+"restaurant_map" = "Map";
+
+"alert_invalid_user" = "Invalid User";

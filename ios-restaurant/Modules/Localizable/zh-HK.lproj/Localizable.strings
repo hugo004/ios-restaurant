@@ -20,11 +20,13 @@
 //home
 "home_setting" = "設置";
 "home_profile" = "個人資料";
+"home_home" = "餐廳";
 
 //setting
 "setting_aboutapp" = "關於應用";
 "setting_language" = "語言";
 "setting_permission" = "權限管理";
+"setting_logout" = "登出";
 
 
 //language
@@ -36,6 +38,7 @@
 "profile_weight" = "體重";
 "profile_height" = "身高";
 "profile_edit" = "編輯";
+"profile_update" = "更新";
 
 //food
 "food_share" = "分享";
@@ -63,3 +66,22 @@
 //role
 "role_guest" = "遊客";
 "role_staff" = "員工";
+
+//login
+"login_username" = "用戶名稱";
+"login_password" = "密碼";
+"login_login" = "登入";
+"login_reset" = "重置";
+"login_cancel" = "取消";
+
+//restaurant
+"restaurant_category" = "分類";
+"restaurant_recommand" = "推薦";
+"restaurant_phone" = "聯絡電話";
+"restaurant_address" = "地址";
+"restaurant_near" = "附近的餐廳";
+"restaurant_new_join" = "最新加入";
+"restaurant_more" = "更多";
+"restaurant_map" = "地圖";
+
+"alert_invalid_user" = "用戶不存在";

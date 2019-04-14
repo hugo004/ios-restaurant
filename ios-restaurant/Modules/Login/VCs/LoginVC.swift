@@ -30,6 +30,7 @@ class LoginView: UIView {
         let txf = UITextField();
         txf.borderStyle = UITextField.BorderStyle.roundedRect;
         txf.placeholder = Helper.Localized(key: "login_password");
+        txf.isSecureTextEntry = true;
         
         return txf;
     }();
@@ -153,8 +154,17 @@ class LoginView: UIView {
 }
     
 
-class LoginVC: UIViewController {
+class LoginVC: BaseViewController {
     var loginView: LoginView!
+    
+    init() {
+        super.init(nibName: nil, bundle: nil);
+        loginView = LoginView();
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -162,15 +172,35 @@ class LoginVC: UIViewController {
         self.view.backgroundColor = UIColor.white;
         
         
-        loginView = LoginView();
+    
         loginView.reset.reactive.controlEvents(.touchUpInside).observe { _ in
-            self.dismiss(animated: true, completion: nil);
+            self.navigationController?.popViewController(animated: true);
+        }
+        
+        loginView.login.reactive.controlEvents(.touchUpInside).observe { _ in
+            let username = self.loginView.userName.text;
+            if username == "" {
+                self.alertMessage(message: Helper.Localized(key: "alert_invalid_user"));
+                return;
+            }
+            StorageHelper.saveUserInfo(data: UserInfo(name: username!));
+            self.navigationController?.popViewController(animated: true);
         }
         
         self.view.addSubview(loginView);
         loginView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view);
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        self.navigationController?.setNavigationBarHidden(true, animated: animated);
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        self.navigationController?.setNavigationBarHidden(false, animated: animated);
     }
 
 }
